@@ -7,6 +7,7 @@ Creating generative art from audio.
 - [ ] STFT
 - [ ] Gabor
 - [ ] Wigner-Ville
+- [ ] Changing Hamiltonian of Schrödinger equation
 - [ ] stable fluid
 - [ ] Lenia
 - [ ] draw line from spectral information
