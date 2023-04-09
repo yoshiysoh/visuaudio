@@ -8,4 +8,5 @@ Creating generative art from audio.
 - [ ] Gabor
 - [ ] Wigner-Ville
 - [ ] stable fluid
+- [ ] Lenia
 - [ ] draw line from spectral information
