@@ -9,7 +9,7 @@ Creating generative art from audio.
 - [ ] Wigner-Ville
 - [ ] Changing Hamiltonian of Schrödinger equation
 - [ ] stable fluid
-- [ ] cellluar automata
+- [ ] cellluar automata, also hexbin
 - [ ] Lenia
 - [ ] draw line from spectral information i.e. strange attractor?
 - [ ] draw line by vector representation of spectral
