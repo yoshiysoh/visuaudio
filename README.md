@@ -1,11 +1,15 @@
 # visuaudio
-VISUalizing AUDIO by various way.
+VISUalizing AUDIO by mathematical/physical way.
 Creating generative art from audio.
 
 # General idea
 - From spectral information of the audio, create something cool.
-- This project approach creative area between generative art and physics.
+- This project approach creative area between generative art and math/physics.
 - Also this code become very visual for party.
+## Idea
+- spectral as input for the system
+- spectral as potential landscape for the system
+- spectral as a noise
 
 # TODO
 ## Phase 0 (general direction of this project)
@@ -16,7 +20,7 @@ Creating generative art from audio.
 - [ ] STFT
 - [ ] Gabor
 - [ ] Wigner-Ville
-## Phase 2 (create physical model for visualization)
+## Phase 2 (create model for visualization)
 ### Mathematical model
 - [ ] draw line by vector representation of spectral
 - [ ] kaleidoscope
@@ -42,7 +46,6 @@ Creating generative art from audio.
 - [ ] Wigner function
 ### Complex systems
 - [ ] cellular automata
-    - [ ] CoDi
     - [ ] Wolfram
         - [ ] Rule 90
         - [ ] Rule 140
@@ -53,6 +56,7 @@ Creating generative art from audio.
     - [ ] Langton's ant
     - [ ] Belousov-Zhabotinsky reaction
     - [ ] Lenia
+    - [ ] CoDi
 - [ ] Vicsek model
 - [ ] Kuramoto model
 -
