@@ -59,7 +59,6 @@ Creating generative art from audio.
     - [ ] CoDi
 - [ ] Vicsek model
 - [ ] Kuramoto model
--
 ## Phase 3 (parameter tuning)
 
 # Reference
