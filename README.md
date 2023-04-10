@@ -2,6 +2,10 @@
 Visualizing audio by various way.
 Creating generative art from audio.
 
+# General idea
+From spectral information of the audio, create something cool.
+This project approach creative area between generative art and physics.
+
 # TODO
 - [ ] make logo of this project
 - [ ] STFT
@@ -9,8 +13,7 @@ Creating generative art from audio.
 - [ ] Wigner-Ville
 - [ ] Changing Hamiltonian of Schrödinger equation
 - [ ] stable fluid
-- [ ] cellluar automata, also hexbin
-- [ ] Lenia
+- [ ] cellluar automata, also hexbin, also Lenia
 - [ ] draw line from spectral information i.e. strange attractor?
 - [ ] draw line by vector representation of spectral
 - [ ] perturbation to gravitational field
