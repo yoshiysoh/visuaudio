@@ -20,23 +20,32 @@ Creating generative art from audio.
 - [ ] STFT
 - [ ] Gabor
 - [ ] Wigner-Ville
+### Reference
+1. http://arxiv.org/abs/2101.06707
 ## Phase 2 (create model for visualization)
 ### Mathematical model
 - [ ] draw line by vector representation of spectral
-- [ ] kaleidoscope
 - [ ] fractal
 - [ ] Mandelbrot set
+- [ ] kaleidoscope
+#### Reference
+1. https://youtu.be/spUNpyF58BY
+2. https://stackoverflow.com/questions/66309353/kaleidoscope-effect-using-python-and-opencv
 ### Classical mechanics
 - [ ] double pendulum
 - [ ] planetary system
-- [ ] stable fluid
 - [ ] wave interference
-- [ ] strange attractor
+#### Reference
+1. http://irobutsu.a.la9.jp/movingtext/index.html
 ### Electromagnetics
 - [ ] electric/magnetic field by spectral
 - [ ] electric/magnetic field by moving electron
+#### Reference
+1. http://irobutsu.a.la9.jp/movingtext/index.html
 ### Thermodynamics
 - [ ] molecular dynamics
+#### Reference
+1. http://irobutsu.a.la9.jp/movingtext/index.html
 ### Statistical mechanics
 - [ ] Ising model
 - [ ] lattice gas
@@ -44,7 +53,10 @@ Creating generative art from audio.
 ### Quantum mechanics
 - [ ] Schrè´”dinger equation
 - [ ] Wigner function
+### Fluid mechanics
+- [ ] stable fluid
 ### Complex systems
+- [ ] strange attractor
 - [ ] cellular automata
     - [ ] Wolfram
         - [ ] Rule 90
@@ -60,5 +72,3 @@ Creating generative art from audio.
 - [ ] Vicsek model
 - [ ] Kuramoto model
 ## Phase 3 (parameter tuning)
-
-# Reference
