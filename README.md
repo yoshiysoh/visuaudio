@@ -64,6 +64,7 @@ Creating generative art from audio.
     - [ ] Game of Life
         - [ ] Brian's brain
         - [ ] Seeds
+    - [ ] Turing pattern
     - [ ] Self-organized criticality
     - [ ] Langton's ant
     - [ ] Belousov-Zhabotinsky reaction
