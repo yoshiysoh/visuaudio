@@ -27,7 +27,12 @@ Creating generative art from audio.
 - [ ] draw line by vector representation of spectral
 - [ ] fractal
 - [ ] Mandelbrot set
+- [ ] Lissajous curve
+- [ ] Bezier curve
 - [ ] kaleidoscope
+- [ ] Harmonograph
+- [ ] Rose
+- [ ] Voronoi
 #### Reference
 1. https://youtu.be/spUNpyF58BY
 2. https://stackoverflow.com/questions/66309353/kaleidoscope-effect-using-python-and-opencv
@@ -53,6 +58,7 @@ Creating generative art from audio.
 ### Quantum mechanics
 - [ ] Schrè´”dinger equation
 - [ ] Wigner function
+- [ ] Quantum carpet
 ### Fluid mechanics
 - [ ] stable fluid
 ### Complex systems
