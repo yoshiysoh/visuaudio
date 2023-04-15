@@ -60,6 +60,7 @@ Creating generative art from audio.
 - [ ] Schr«Ódinger equation
 - [ ] Wigner function
 - [ ] Quantum carpet
+- [ ] Quantum scar
 ### Fluid mechanics
 - [ ] stable fluid
 ### Complex systems
