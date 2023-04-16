@@ -43,6 +43,7 @@ Creating generative art from audio.
 - [ ] wave interference
 #### Reference
 1. http://irobutsu.a.la9.jp/movingtext/index.html
+2. https://galileo-unbound.blog/
 ### Electromagnetics
 - [ ] electric/magnetic field by spectral
 - [ ] electric/magnetic field by moving electron
