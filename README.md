@@ -82,4 +82,5 @@ Creating generative art from audio.
 - [ ] Vicsek model
 - [ ] Kuramoto model
 - [ ] active matter
+    -[ ] cell moving vector field by active matter
 ## Phase 3 (parameter tuning)
