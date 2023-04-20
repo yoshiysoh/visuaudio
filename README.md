@@ -83,4 +83,5 @@ Creating generative art from audio.
 - [ ] Kuramoto model
 - [ ] active matter
     -[ ] cell moving vector field by active matter
+- [ ] Network signalling
 ## Phase 3 (parameter tuning)
