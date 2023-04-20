@@ -84,4 +84,5 @@ Creating generative art from audio.
 - [ ] active matter
     -[ ] cell moving vector field by active matter
 - [ ] Network signalling
+- [ ] Voter model
 ## Phase 3 (parameter tuning)
