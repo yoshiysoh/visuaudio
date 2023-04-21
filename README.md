@@ -64,6 +64,8 @@ Creating generative art from audio.
 - [ ] Quantum scar
 ### Fluid mechanics
 - [ ] stable fluid
+#### Reference
+1. https://gfm.aps.org/
 ### Complex systems
 - [ ] strange attractor
 - [ ] cellular automata
