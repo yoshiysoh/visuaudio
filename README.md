@@ -22,7 +22,10 @@ Creating generative art from audio.
 - [ ] Wigner-Ville
 ### Reference
 1. http://arxiv.org/abs/2101.06707
-## Phase 2 (create model for visualization)
+## Phase 2 (select visualizing software)
+- [ ] pygame
+- [ ] graphics for alife
+## Phase 3 (create model for visualization)
 ### Mathematical model
 - [ ] draw line by vector representation of spectral
 - [ ] fractal
@@ -87,4 +90,4 @@ Creating generative art from audio.
     -[ ] cell moving vector field by active matter
 - [ ] Network signalling
 - [ ] Voter model
-## Phase 3 (parameter tuning)
+## Phase 4 (parameter tuning)
