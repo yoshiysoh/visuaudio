@@ -25,6 +25,7 @@ Creating generative art from audio.
 ## Phase 2 (select visualizing software)
 - [ ] pygame
 - [ ] graphics for alife
+- [ ] pyqt5
 ## Phase 3 (create model for visualization)
 ### Mathematical model
 - [ ] draw line by vector representation of spectral
