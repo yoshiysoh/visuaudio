@@ -94,7 +94,7 @@ Creating generative art from audio.
 - [ ] Vicsek model
 - [ ] Kuramoto model
 - [ ] active matter
-    -[ ] cell moving vector field by active matter
+    - [ ] cell moving vector field by active matter
 - [ ] Network signalling
 - [ ] Voter model
 ## Phase 4 (parameter tuning)
