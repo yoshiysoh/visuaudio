@@ -22,10 +22,16 @@ Creating generative art from audio.
 - [ ] Wigner-Ville
 ### Reference
 1. http://arxiv.org/abs/2101.06707
+2. https://www.generativehut.com/post/using-processing-for-music-visualization
+3. https://www.henryschmale.org/2021/01/07/pygame-linein-audio-viz.html
+3. https://youtu.be/aQKX3mrDFoY
 ## Phase 2 (select visualizing software)
+- [ ] Matplotlib
 - [ ] pygame
 - [ ] graphics for alife
 - [ ] pyqt5
+### Reference
+1. https://youtu.be/RHmTgapLu4s
 ## Phase 3 (create model for visualization)
 ### Mathematical model
 - [ ] draw line by vector representation of spectral
