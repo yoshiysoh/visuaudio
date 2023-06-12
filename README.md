@@ -34,6 +34,7 @@ Creating generative art from audio.
 1. https://youtu.be/RHmTgapLu4s
 ## Phase 3 (create model for visualization)
 ### Mathematical model
+- [ ] phasescope
 - [ ] draw line by vector representation of spectral
 - [ ] fractal
 - [ ] Mandelbrot set
