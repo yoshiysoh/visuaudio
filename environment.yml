@@ -1,0 +1,16 @@
+name: visuaudio
+
+dependencies:
+  - defaults::python
+  - defaults::cython
+  - defaults::line_profiler
+  - defaults::matplotlib
+  - defaults::memory_profiler
+  - defaults::numba
+  - defaults::numpy
+  - defaults::pyaudio
+  - defaults::pyqtgraph
+  - defaults::scipy
+  - pip
+  - pip:
+    - jupyterlab_vim
