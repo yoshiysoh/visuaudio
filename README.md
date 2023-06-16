@@ -17,6 +17,7 @@ Creating generative art from audio.
 - [x] fixing the general concept of this project
 - [ ] make logo of this project
 ## Phase 1 (spectral analysis of input audio)
+- [ ] PyAudio
 - [ ] STFT
 - [ ] Gabor
 - [ ] Wigner-Ville
@@ -26,10 +27,8 @@ Creating generative art from audio.
 3. https://www.henryschmale.org/2021/01/07/pygame-linein-audio-viz.html
 3. https://youtu.be/aQKX3mrDFoY
 ## Phase 2 (select visualizing software)
-- [ ] Matplotlib
-- [ ] pygame
-- [ ] graphics for alife
-- [ ] pyqt5
+- ~~Matplotlib~~  (slow)
+- pygraph (fast!)
 ### Reference
 1. https://youtu.be/RHmTgapLu4s
 ## Phase 3 (create model for visualization)
