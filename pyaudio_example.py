@@ -65,7 +65,8 @@ class AudioStream(object):
 
     def start(self):
         if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-            QtWidgets.QApplication.instance().exec_()
+            #QtWidgets.QApplication.instance().exec_()
+            pg.exec()
 
     def set_plotdata(self, name, data_x, data_y):
         if name in self.traces:
