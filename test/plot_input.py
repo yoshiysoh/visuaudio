@@ -9,8 +9,8 @@ import queue
 import sys
 
 import matplotlib as mpl
-from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 import numpy as np
 import sounddevice as sd
 
@@ -99,16 +99,14 @@ try:
     plotdata = np.zeros((length, len(args.channels)))
 
     mpl.rcParams['toolbar'] = 'None'
-    mpl.rcParams['axes.spines.left'] = False
-    mpl.rcParams['axes.spines.bottom'] = False
-    mpl.rcParams['axes.spines.top'] = False
-    mpl.rcParams['axes.spines.right'] = False
+    mpl.rcParams['figure.constrained_layout.use'] = True
 
     fig, ax = plt.subplots()
-    lines = ax.plot(plotdata)
+    lines = ax.plot(plotdata, animated=True)
     if len(args.channels) > 1:
         ax.legend([f'channel {c}' for c in args.channels],
                   loc='lower left', ncol=len(args.channels))
+    ax.axis('off')
     ax.axis((0, len(plotdata), -1, 1))
     #ax.set_yticks([0])
     #ax.yaxis.grid(True)
@@ -121,6 +119,6 @@ try:
         samplerate=args.samplerate, callback=audio_callback)
     ani = FuncAnimation(fig, update_plot, interval=args.interval, blit=True, cache_frame_data=False)
     with stream:
-        plt.show()
+        plt.show(block=True)
 except Exception as e:
     parser.exit(type(e).__name__ + ': ' + str(e))
