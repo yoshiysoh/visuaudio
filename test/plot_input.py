@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from scipy.fft import fft, fftfreq
 import sounddevice as sd
 
 
@@ -69,6 +70,9 @@ def audio_callback(indata, frames, time, status):
     q.put(indata[::args.downsample, mapping])
 
 
+r = 0.75
+rf = r*1.25
+power = 0.5
 def update_plot(frame):
     """This is called by matplotlib for each plot update.
 
@@ -85,9 +89,18 @@ def update_plot(frame):
         shift = len(data)
         plotdata = np.roll(plotdata, -shift, axis=0)
         plotdata[-shift:, :] = data
-    for column, line in enumerate(lines):
-        line.set_ydata(plotdata[:, column])
-    return lines
+
+    #for column, line in enumerate(lines):
+    #    line.set_ydata(plotdata[:, column]+r)
+    lines.set_ydata(plotdata[:, 0]+r)
+
+    yf = fft(plotdata, axis=0)
+    #yf = 2.0/length * np.abs(yf[:length//2])
+    yf = 2.0/length * np.abs(yf[:length//2]) * 50
+    #for column, linef in enumerate(linesf):
+    #    linef.set_ydata(yf[:, column])
+    linesf.set_ydata(yf[:, 0]+rf)
+    return lines, linesf
 
 
 try:
@@ -101,13 +114,24 @@ try:
     mpl.rcParams['toolbar'] = 'None'
     mpl.rcParams['figure.constrained_layout.use'] = True
 
-    fig, ax = plt.subplots()
-    lines = ax.plot(plotdata, animated=True)
+    #fig, ax = plt.subplots()
+    fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+
+    theta = np.linspace(0, 2*np.pi, length)
+    lines, = ax.plot(theta, plotdata+rf, animated=True)
     if len(args.channels) > 1:
         ax.legend([f'channel {c}' for c in args.channels],
                   loc='lower left', ncol=len(args.channels))
+
+    yf = fft(plotdata, axis=0)
+    #yf = 2.0/length * np.abs(yf[:length//2])
+    yf = 2.0/length * np.abs(yf[:length//2]) * 50
+    xf = fftfreq(length, args.window)[:length//2]
+    xf = xf/xf.max() * 2*np.pi
+    linesf, = ax.plot(xf, yf+rf, animated=True)
+
     ax.axis('off')
-    ax.axis((0, len(plotdata), -1, 1))
+    ax.axis((0, 2*np.pi, 0, rf+1.2))
     ax.tick_params(bottom=False, top=False, labelbottom=False,
                    right=False, left=False, labelleft=False)
 
