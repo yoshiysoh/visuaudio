@@ -8,10 +8,10 @@ import argparse
 import queue
 import sys
 
+import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-import numpy as np
 import sounddevice as sd
 
 
@@ -108,11 +108,8 @@ try:
                   loc='lower left', ncol=len(args.channels))
     ax.axis('off')
     ax.axis((0, len(plotdata), -1, 1))
-    #ax.set_yticks([0])
-    #ax.yaxis.grid(True)
     ax.tick_params(bottom=False, top=False, labelbottom=False,
                    right=False, left=False, labelleft=False)
-    #fig.tight_layout(pad=0)
 
     stream = sd.InputStream(
         device=args.device, channels=max(args.channels),
