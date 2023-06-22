@@ -55,6 +55,9 @@ parser.add_argument(
 parser.add_argument(
     '-n', '--downsample', type=int, default=10, metavar='N',
     help='display every Nth sample (default: %(default)s)')
+parser.add_argument(
+    '-t', '--theme', type=str, default='light',
+    help='color theme (default: %(default)s)')
 args = parser.parse_args(remaining)
 if any(c < 1 for c in args.channels):
     parser.error('argument CHANNEL: must be >= 1')
@@ -102,6 +105,13 @@ def update_plot(frame):
     linesf.set_ydata(yf[:, 0]+rf)
     return lines, linesf
 
+mpl.rcParams['toolbar'] = 'None'
+mpl.rcParams['figure.constrained_layout.use'] = True
+if args.theme=="light":
+    plt.rcdefaults()
+elif args.theme=="dark":
+    plt.style.use('dark_background')
+
 
 try:
     if args.samplerate is None:
@@ -110,9 +120,6 @@ try:
 
     length = int(args.window * args.samplerate / (1000 * args.downsample))
     plotdata = np.zeros((length, len(args.channels)))
-
-    mpl.rcParams['toolbar'] = 'None'
-    mpl.rcParams['figure.constrained_layout.use'] = True
 
     #fig, ax = plt.subplots()
     fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
