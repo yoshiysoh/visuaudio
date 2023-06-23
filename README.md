@@ -1,4 +1,4 @@
-# visuaudio
+![logo](logo/logo_light_dark.png)
 VISUalizing AUDIO by mathematical/physical way.
 Creating generative art from audio.
 
