@@ -12,7 +12,7 @@ Creating generative art from audio.
 - spectral as a noise
 
 # TODO
-## Section 0 (general direction of this project)
+## Section 0 (general stuff)
 - [x] deciding the name of this project
 - [x] fixing the general concept of this project
 - [x] make the logo of this project
@@ -32,7 +32,7 @@ Creating generative art from audio.
 - [ ] pyqtgraph (fast!)
 ### Reference
 1. https://youtu.be/RHmTgapLu4s
-## Section 3 (create model for visualization)
+## Section 3 (various visualization)
 ### Mathematical model
 - [ ] phasescope
 - [ ] draw line by vector representation of spectral
