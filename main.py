@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from scipy.fft import fft, fftfreq
+from scipy.fft import rfft, fftfreq
 from scipy.stats import norm
 import sounddevice as sd
 
@@ -79,7 +79,7 @@ def audio_callback(indata, frames, time, status):
 
 
 def fourier(plotdata):
-    yf = fft(plotdata, axis=0)
+    yf = rfft(plotdata, axis=0)
     yf = np.abs(yf[:length//2])*0.05
     return yf
 
@@ -93,7 +93,7 @@ def filter4gabor(plotdata):
     return gaussian_filter
 
 def gabor(plotdata):
-    yf = fft(plotdata*gaussian_filter, axis=0)
+    yf = rfft(plotdata*gaussian_filter, axis=0)
     yf = np.abs(yf[:length//2])*100
     return yf
 
@@ -102,7 +102,7 @@ def shifter4wigner(plotdata):
     return shifter
 
 def wigner(plotdata):
-    yf = fft(plotdata*np.roll(plotdata, -shifter, axis=0), axis=0)
+    yf = rfft(plotdata*np.roll(plotdata, -shifter, axis=0), axis=0)
     yf = np.abs(yf[:length//2])
     return yf
 
