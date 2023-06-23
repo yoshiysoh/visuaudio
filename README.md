@@ -17,7 +17,7 @@ Creating generative art from audio.
 - [x] fixing the general concept of this project
 - [x] make the logo of this project
 ## Section 1 (spectral analysis of input audio)
-- ~~[ ] PyAudio~~ (does not work Python>=3.7)
+- [ ] ~~PyAudio~~ (does not work Python>=3.7)
 - [x] python-sounddevice (Faster alternative of PyAudio)
 - [x] STFT
 - [ ] Gabor
