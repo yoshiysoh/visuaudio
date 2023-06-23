@@ -12,13 +12,14 @@ Creating generative art from audio.
 - spectral as a noise
 
 # TODO
-## Phase 0 (general direction of this project)
+## Section 0 (general direction of this project)
 - [x] deciding the name of this project
 - [x] fixing the general concept of this project
-- [ ] make logo of this project
-## Phase 1 (spectral analysis of input audio)
-- [ ] PyAudio
-- [ ] STFT
+- [x] make the logo of this project
+## Section 1 (spectral analysis of input audio)
+- ~~[ ] PyAudio~~ (does not work Python>=3.7)
+- [x] python-sounddevice (Faster alternative of PyAudio)
+- [x] STFT
 - [ ] Gabor
 - [ ] Wigner-Ville
 ### Reference
@@ -26,12 +27,12 @@ Creating generative art from audio.
 2. https://www.generativehut.com/post/using-processing-for-music-visualization
 3. https://www.henryschmale.org/2021/01/07/pygame-linein-audio-viz.html
 3. https://youtu.be/aQKX3mrDFoY
-## Phase 2 (select visualizing software)
-- ~~Matplotlib~~  (slow)
-- pygraph (fast!)
+## Section 2 (select visualizing software)
+- [x] Matplotlib
+- [ ] pyqtgraph (fast!)
 ### Reference
 1. https://youtu.be/RHmTgapLu4s
-## Phase 3 (create model for visualization)
+## Section 3 (create model for visualization)
 ### Mathematical model
 - [ ] phasescope
 - [ ] draw line by vector representation of spectral
@@ -97,4 +98,4 @@ Creating generative art from audio.
     - [ ] cell moving vector field by active matter
 - [ ] Network signalling
 - [ ] Voter model
-## Phase 4 (parameter tuning)
+## Section 4 (parameter tuning)
