@@ -13,6 +13,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from scipy.fft import fft, fftfreq
+from scipy.stats import norm
 import sounddevice as sd
 
 
@@ -56,8 +57,11 @@ parser.add_argument(
     '-n', '--downsample', type=int, default=10, metavar='N',
     help='display every Nth sample (default: %(default)s)')
 parser.add_argument(
-    '-t', '--theme', type=str, default='light',
+    '-c', '--theme', type=str, default='light',
     help='color theme (default: %(default)s)')
+parser.add_argument(
+    '-t', '--transformer', type=str, default='fourier',
+    help='spectrum transformer(default: %(default)s)')
 args = parser.parse_args(remaining)
 if any(c < 1 for c in args.channels):
     parser.error('argument CHANNEL: must be >= 1')
@@ -73,9 +77,26 @@ def audio_callback(indata, frames, time, status):
     q.put(indata[::args.downsample, mapping])
 
 
-r = 0.75
-rf = r*1.25
-power = 0.5
+def fourier(plotdata):
+    yf = fft(plotdata, axis=0)
+    yf = np.abs(yf[:length//2])*0.1
+    return yf
+
+def filter4gabor(plotdata):
+    length = len(plotdata)
+    x_filter = np.arange(length)
+    gaussian_filter = norm.pdf(x_filter,
+                               loc=x_filter.mean(),
+                               scale=length/2/Nsigma)
+    gaussian_filter = np.vstack(gaussian_filter)
+    return gaussian_filter
+
+def gabor(plotdata):
+    yf = fft(plotdata*gaussian_filter, axis=0)
+    yf = np.abs(yf[:length//2])*100
+    return yf
+
+
 def update_plot(frame):
     """This is called by matplotlib for each plot update.
 
@@ -97,9 +118,8 @@ def update_plot(frame):
     #    line.set_ydata(plotdata[:, column]+r)
     lines.set_ydata(plotdata[:, 0]+r)
 
-    yf = fft(plotdata, axis=0)
-    #yf = 2.0/length * np.abs(yf[:length//2])
-    yf = 2.0/length * np.abs(yf[:length//2]) * 50
+    yf = x2f(plotdata)
+    yf = yf**(power)
     #for column, linef in enumerate(linesf):
     #    linef.set_ydata(yf[:, column])
     linesf.set_ydata(yf[:, 0]+rf)
@@ -112,6 +132,19 @@ if args.theme=="light":
 elif args.theme=="dark":
     plt.style.use('dark_background')
 
+r = 0.75
+rf = r*1.25
+power = 1.2
+Nsigma = 1
+
+if args.transformer == "fourier":
+    x2f = fourier
+elif args.transformer == "gabor":
+    x2f = gabor
+elif args.transformer == "wigner":
+    x2f = wigner
+
+
 
 try:
     if args.samplerate is None:
@@ -122,7 +155,8 @@ try:
     plotdata = np.zeros((length, len(args.channels)))
 
     #fig, ax = plt.subplots()
-    fig, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+    fig, ax = plt.subplots(figsize = (6.4, 6.4), 
+                           subplot_kw={'projection': 'polar'})
 
     theta = np.linspace(0, 2*np.pi, length)
     lines, = ax.plot(theta, plotdata+rf, animated=True)
@@ -130,11 +164,12 @@ try:
         ax.legend([f'channel {c}' for c in args.channels],
                   loc='lower left', ncol=len(args.channels))
 
-    yf = fft(plotdata, axis=0)
-    #yf = 2.0/length * np.abs(yf[:length//2])
-    yf = 2.0/length * np.abs(yf[:length//2]) * 50
     xf = fftfreq(length, args.window)[:length//2]
     xf = xf/xf.max() * 2*np.pi
+    if args.transformer == "gabor":
+        gaussian_filter =filter4gabor(plotdata)
+    yf = x2f(plotdata)
+    yf = yf**(power)
     linesf, = ax.plot(xf, yf+rf, animated=True)
 
     ax.axis('off')
