@@ -79,7 +79,7 @@ def audio_callback(indata, frames, time, status):
 
 def fourier(plotdata):
     yf = fft(plotdata, axis=0)
-    yf = np.abs(yf[:length//2])*0.1
+    yf = np.abs(yf[:length//2])*0.05
     return yf
 
 def filter4gabor(plotdata):
@@ -94,6 +94,15 @@ def filter4gabor(plotdata):
 def gabor(plotdata):
     yf = fft(plotdata*gaussian_filter, axis=0)
     yf = np.abs(yf[:length//2])*100
+    return yf
+
+def shifter4wigner(plotdata):
+    shifter = len(plotdata)//2
+    return shifter
+
+def wigner(plotdata):
+    yf = fft(plotdata*np.roll(plotdata, -shifter, axis=0), axis=0)
+    yf = np.abs(yf[:length//2])
     return yf
 
 
@@ -137,13 +146,6 @@ rf = r*1.25
 power = 1.2
 Nsigma = 1
 
-if args.transformer == "fourier":
-    x2f = fourier
-elif args.transformer == "gabor":
-    x2f = gabor
-elif args.transformer == "wigner":
-    x2f = wigner
-
 
 
 try:
@@ -154,8 +156,7 @@ try:
     length = int(args.window * args.samplerate / (1000 * args.downsample))
     plotdata = np.zeros((length, len(args.channels)))
 
-    #fig, ax = plt.subplots()
-    fig, ax = plt.subplots(figsize = (6.4, 6.4), 
+    fig, ax = plt.subplots(figsize = (6.4, 6.4),
                            subplot_kw={'projection': 'polar'})
 
     theta = np.linspace(0, 2*np.pi, length)
@@ -166,8 +167,14 @@ try:
 
     xf = fftfreq(length, args.window)[:length//2]
     xf = xf/xf.max() * 2*np.pi
-    if args.transformer == "gabor":
+    if args.transformer == "fourier":
+        x2f = fourier
+    elif args.transformer == "gabor":
         gaussian_filter =filter4gabor(plotdata)
+        x2f = gabor
+    elif args.transformer == "wigner":
+        shifter = shifter4wigner(plotdata)
+        x2f = wigner
     yf = x2f(plotdata)
     yf = yf**(power)
     linesf, = ax.plot(xf, yf+rf, animated=True)
