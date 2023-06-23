@@ -27,7 +27,7 @@ Creating generative art from audio.
 2. https://www.generativehut.com/post/using-processing-for-music-visualization
 3. https://www.henryschmale.org/2021/01/07/pygame-linein-audio-viz.html
 3. https://youtu.be/aQKX3mrDFoY
-## Section 2 (select visualizing software)
+## Section 2 (visualizing software)
 - [x] Matplotlib
 - [ ] pyqtgraph (fast!)
 ### Reference
