@@ -128,7 +128,7 @@ def update_plot(frame):
     #    line.set_ydata(plotdata[:, column]+r)
     lines.set_ydata(plotdata[:, 0]+r)
 
-    yf = x2f(plotdata)
+    yf = transformer(plotdata)
     yf = yf**(power)
     #for column, linef in enumerate(linesf):
     #    linef.set_ydata(yf[:, column])
@@ -169,14 +169,14 @@ try:
     xf = fftfreq(length, args.window)[:length//2]
     xf = xf/xf.max() * 2*np.pi
     if args.transformer == "fourier":
-        x2f = fourier
+        transformer = fourier
     elif args.transformer == "gabor":
         gaussian_filter =filter4gabor(plotdata)
-        x2f = gabor
+        transformer = gabor
     elif args.transformer == "wigner":
         shifter = shifter4wigner(plotdata)
-        x2f = wigner
-    yf = x2f(plotdata)
+        transformer = wigner
+    yf = transformer(plotdata)
     yf = yf**(power)
     linesf, = ax.plot(xf, yf+rf, animated=True)
 
