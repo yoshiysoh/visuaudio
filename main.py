@@ -62,7 +62,10 @@ parser.add_argument(
     help='color theme (default: %(default)s)')
 parser.add_argument(
     '-t', '--transformer', type=str, default='fourier',
-    help='spectrum transformer(default: %(default)s)')
+    help='spectrum transformer (default: %(default)s)')
+parser.add_argument(
+    '-dr', '--dynamic_radius', type=int, default=0,
+    help='dynamic radius (default: %(default)s)')
 args = parser.parse_args(remaining)
 if any(c < 1 for c in args.channels):
     parser.error('argument CHANNEL: must be >= 1')
@@ -106,6 +109,12 @@ def wigner(plotdata):
     yf = np.abs(yf[:length//2])
     return yf
 
+def original_radius(yf):
+    return yf[:, 0]+rf
+
+def dynamic_radius(yf):
+    return yf[:, 0]+rf+yf[40:60].mean()
+
 
 def update_plot(frame):
     """This is called by matplotlib for each plot update.
@@ -132,7 +141,8 @@ def update_plot(frame):
     yf = yf**(power)
     #for column, linef in enumerate(linesf):
     #    linef.set_ydata(yf[:, column])
-    linesf.set_ydata(yf[:, 0]+rf)
+    #linesf.set_ydata(yf[:, 0]+rf+yf[40:60].mean())
+    linesf.set_ydata(radius_processor(yf))
     return lines, linesf
 
 mpl.rcParams['toolbar'] = 'None'
@@ -144,7 +154,7 @@ elif args.theme=="dark":
 
 r = 0.75
 rf = r*1.25
-power = 1.2
+power = 1.0
 Nsigma = 1
 
 
@@ -178,7 +188,11 @@ try:
         transformer = wigner
     yf = transformer(plotdata)
     yf = yf**(power)
-    linesf, = ax.plot(xf, yf+rf, animated=True)
+    if args.dynamic_radius :
+        radius_processor = dynamic_radius
+    else :
+        radius_processor = original_radius
+    linesf, = ax.plot(xf, radius_processor(yf), animated=True)
 
     ax.axis('off')
     ax.axis((0, 2*np.pi, 0, rf+0.7))
