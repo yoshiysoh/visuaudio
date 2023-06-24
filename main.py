@@ -181,9 +181,7 @@ try:
     linesf, = ax.plot(xf, yf+rf, animated=True)
 
     ax.axis('off')
-    ax.axis((0, 2*np.pi, 0, rf+1.2))
-    ax.tick_params(bottom=False, top=False, labelbottom=False,
-                   right=False, left=False, labelleft=False)
+    ax.axis((0, 2*np.pi, 0, rf+0.7))
 
     stream = sd.InputStream(
         device=args.device, channels=max(args.channels),
