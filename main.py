@@ -110,10 +110,10 @@ def wigner(plotdata):
     return yf
 
 def original_radius(yf):
-    return yf[:, 0]+rf
+    return yf+rf
 
 def dynamic_radius(yf):
-    return yf[:, 0]+rf+yf[40:60].mean()
+    return yf+rf+yf[40:60].mean()
 
 
 def update_plot(frame):
