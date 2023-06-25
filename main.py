@@ -171,7 +171,7 @@ try:
                            subplot_kw={'projection': 'polar'})
 
     theta = np.linspace(0, 2*np.pi, length)
-    lines, = ax.plot(theta, plotdata+rf, animated=True)
+    lines, = ax.plot(theta, plotdata+r, animated=True)
     if len(args.channels) > 1:
         ax.legend([f'channel {c}' for c in args.channels],
                   loc='lower left', ncol=len(args.channels))
