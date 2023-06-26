@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Plot the live microphone signal(s) with Matplotlib.
+Plot the live microphone signal(s) with PyQtGraph.
 
 Original code is from example of code of python-sounddevice
 https://github.com/spatialaudio/python-sounddevice/blob/f148dc64c9eb043adcf8de3b34890e8f3df71636/examples/plot_input.py
