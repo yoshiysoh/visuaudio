@@ -164,9 +164,9 @@ try:
 
     app = pg.mkQApp("Plotting Example")
 
-    win = pg.GraphicsLayoutWidget(show=True, title="VisuAudiO")
+    win = pg.GraphicsLayoutWidget(show=True)
     win.resize(640, 640)
-    win.setWindowTitle('pyqtgraph example: Plotting')
+    win.setWindowTitle("Audircle & Specirctrogram")
 
     # Enable antialiasing for prettier plots
     pg.setConfigOptions(antialias=True)
