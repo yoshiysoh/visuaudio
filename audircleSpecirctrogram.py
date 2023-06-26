@@ -147,6 +147,11 @@ def update_plot():
     frames += 1
 
 
+if args.theme=="light":
+    pg.setConfigOption('background', 'w')
+elif args.theme=="dark":
+    pg.setConfigOption('foreground', 'k')
+
 r0 = 0.75
 r0f = r0*1.25
 power = 1.0
@@ -203,15 +208,15 @@ try:
     yf = rf*np.sin(thetaf)
     curvef = p.plot(np.hstack((xf, yf)))
 
-    p.setAspectLocked()
     r_max = r0f + 0.7
     p.setXRange(-r_max, r_max)
     p.setYRange(-r_max, r_max)
-    p.setLimits(xMin=-2*r_max, xMax=2*r_max, 
-                minXRange=r_max, maxXRange=4*r_max, 
+    p.setLimits(xMin=-2*r_max, xMax=2*r_max,
+                minXRange=r_max, maxXRange=4*r_max,
                 yMin=-2*r_max, yMax=2*r_max,
                 minYRange=r_max, maxYRange=4*r_max)
     p.enableAutoRange('xy', False)
+    p.setAspectLocked()
     p.showAxis('bottom', False)
     p.showAxis('left', False)
 
