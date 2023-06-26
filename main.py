@@ -198,6 +198,7 @@ try:
     rf = radius_processor(yf)
     linesf, = ax.plot(thetaf, rf, animated=True)
 
+    plt.get_current_fig_manager().set_window_title('Audircle & Specirctrogram')
     ax.axis('off')
     ax.axis((0, 2*np.pi, 0, r0f+0.7))
 
