@@ -110,10 +110,10 @@ def wigner(plotdata):
     return yf
 
 def original_radius(yf):
-    return yf+rf
+    return yf+r0f
 
 def dynamic_radius(yf):
-    return yf+rf+yf[40:60].mean()
+    return yf+r0f+yf[40:60].mean()
 
 
 def update_plot(frame):
@@ -135,14 +135,16 @@ def update_plot(frame):
 
     #for column, line in enumerate(lines):
     #    line.set_ydata(plotdata[:, column]+r)
-    lines.set_ydata(plotdata[:, 0]+r)
+    r = plotdata[:, 0]+r0
+    lines.set_ydata(r)
 
     yf = transformer(plotdata)
     yf = yf**(power)
     #for column, linef in enumerate(linesf):
     #    linef.set_ydata(yf[:, column])
     #linesf.set_ydata(yf[:, 0]+rf+yf[40:60].mean())
-    linesf.set_ydata(radius_processor(yf))
+    rf = radius_processor(yf)
+    linesf.set_ydata(rf)
     return lines, linesf
 
 mpl.rcParams['toolbar'] = 'None'
@@ -152,8 +154,8 @@ if args.theme=="light":
 elif args.theme=="dark":
     plt.style.use('dark_background')
 
-r = 0.75
-rf = r*1.25
+r0 = 0.75
+r0f = r0*1.25
 power = 1.0
 Nsigma = 1
 
@@ -171,13 +173,14 @@ try:
                            subplot_kw={'projection': 'polar'})
 
     theta = np.linspace(0, 2*np.pi, length)
-    lines, = ax.plot(theta, plotdata+r, animated=True)
+    r = plotdata + r0
+    lines, = ax.plot(theta, r, animated=True)
     if len(args.channels) > 1:
         ax.legend([f'channel {c}' for c in args.channels],
                   loc='lower left', ncol=len(args.channels))
 
     xf = fftfreq(length, args.window)[:length//2]
-    xf = xf/xf.max() * 2*np.pi
+    thetaf = xf/xf.max() * 2*np.pi
     if args.transformer == "fourier":
         transformer = fourier
     elif args.transformer == "gabor":
@@ -192,10 +195,11 @@ try:
         radius_processor = dynamic_radius
     else :
         radius_processor = original_radius
-    linesf, = ax.plot(xf, radius_processor(yf), animated=True)
+    rf = radius_processor(yf)
+    linesf, = ax.plot(thetaf, rf, animated=True)
 
     ax.axis('off')
-    ax.axis((0, 2*np.pi, 0, rf+0.7))
+    ax.axis((0, 2*np.pi, 0, r0f+0.7))
 
     stream = sd.InputStream(
         device=args.device, channels=max(args.channels),
