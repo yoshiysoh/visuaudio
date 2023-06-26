@@ -143,7 +143,7 @@ def update_plot():
     xf = rf*np.cos(thetaf)
     yf = rf*np.sin(thetaf)
     curvef.setData(np.hstack((xf, yf)))
-    
+
     frames += 1
 
 
@@ -162,7 +162,7 @@ try:
     length = int(args.window * args.samplerate / (1000 * args.downsample))
     plotdata = np.zeros((length, len(args.channels)))
 
-    app = pg.mkQApp("Plotting Example")
+    app = pg.mkQApp()
 
     win = pg.GraphicsLayoutWidget(show=True)
     win.resize(640, 640)
