@@ -153,6 +153,7 @@ if args.theme=="light":
     plt.style.use('fast')
 elif args.theme=="dark":
     plt.style.use('dark_background')
+    plt.style.use('fast')
 
 r0 = 0.75
 r0f = r0*1.25
