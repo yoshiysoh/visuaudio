@@ -150,7 +150,7 @@ def update_plot(frame):
 mpl.rcParams['toolbar'] = 'None'
 mpl.rcParams['figure.constrained_layout.use'] = True
 if args.theme=="light":
-    plt.rcdefaults()
+    plt.style.use('fast')
 elif args.theme=="dark":
     plt.style.use('dark_background')
 
