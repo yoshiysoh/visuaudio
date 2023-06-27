@@ -185,6 +185,7 @@ try:
     x = r*np.cos(theta)
     y = r*np.sin(theta)
     curve = p.plot(np.hstack((x, y)))
+    curve.setPen(width=4)
 
     thetaf = fftfreq(length, args.window)[:length//2]
     thetaf = thetaf/thetaf.max() * 2*np.pi
@@ -207,6 +208,7 @@ try:
     xf = rf*np.cos(thetaf)
     yf = rf*np.sin(thetaf)
     curvef = p.plot(np.hstack((xf, yf)))
+    curvef.setPen(width=4)
 
     r_max = r0f + 0.7
     p.setXRange(-r_max, r_max)
