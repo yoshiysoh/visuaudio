@@ -83,7 +83,7 @@ def audio_callback(indata, frames, time, status):
 
 def fourier(plotdata):
     yf = rfft(plotdata, axis=0)
-    yf = np.abs(yf[:length//2])*0.05
+    yf = np.abs(yf[:length//2])**2
     return yf
 
 def filter4gabor(plotdata):
@@ -92,12 +92,13 @@ def filter4gabor(plotdata):
     gaussian_filter = norm.pdf(x_filter,
                                loc=x_filter.mean(),
                                scale=length/2/Nsigma)
+    gaussian_filter = gaussian_filter / gaussian_filter.max()
     gaussian_filter = np.vstack(gaussian_filter)
     return gaussian_filter
 
 def gabor(plotdata):
-    yf = rfft(plotdata*gaussian_filter, axis=0)
-    yf = np.abs(yf[:length//2])*100
+    plotdata_gabor = plotdata*gaussian_filter
+    yf = fourier(plotdata_gabor)
     return yf
 
 def shifter4wigner(plotdata):
@@ -105,8 +106,9 @@ def shifter4wigner(plotdata):
     return shifter
 
 def wigner(plotdata):
-    yf = rfft(plotdata*np.roll(plotdata, -shifter, axis=0), axis=0)
-    yf = np.abs(yf[:length//2])
+    plotdata_wigner = plotdata*np.roll(plotdata, -shifter, axis=0)
+    yf = rfft(plotdata_wigner, axis=0)
+    yf = np.abs(yf[:length//2]) * 10
     return yf
 
 def original_radius(yf):
@@ -114,6 +116,14 @@ def original_radius(yf):
 
 def dynamic_radius(yf):
     return yf+r0f+yf[40:60].mean()
+
+def postprocess(yf):
+    yf *= sensitivity
+    #yf = yf**(power)
+    yf = np.log10(1+yf)
+    rf = radius_processor(yf)
+    return rf
+
 
 
 def update_plot(frame):
@@ -139,11 +149,9 @@ def update_plot(frame):
     lines.set_ydata(r)
 
     yf = transformer(plotdata)
-    yf = yf**(power)
+    rf = postprocess(yf)
     #for column, linef in enumerate(linesf):
     #    linef.set_ydata(yf[:, column])
-    #linesf.set_ydata(yf[:, 0]+rf+yf[40:60].mean())
-    rf = radius_processor(yf)
     linesf.set_ydata(rf)
     return lines, linesf
 
@@ -157,6 +165,7 @@ elif args.theme=="dark":
 
 r0 = 0.75
 r0f = r0*1.25
+sensitivity = 0.01
 power = 1.0
 Nsigma = 1
 
@@ -191,12 +200,11 @@ try:
         shifter = shifter4wigner(plotdata)
         transformer = wigner
     yf = transformer(plotdata)
-    yf = yf**(power)
     if args.dynamic_radius :
         radius_processor = dynamic_radius
     else :
         radius_processor = original_radius
-    rf = radius_processor(yf)
+    rf = postprocess(yf)
     linesf, = ax.plot(thetaf, rf, animated=True)
 
     plt.get_current_fig_manager().set_window_title('Audircle & Specirctrogram')
