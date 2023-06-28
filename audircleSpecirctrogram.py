@@ -2,7 +2,7 @@
 """
 Plot the live microphone signal(s) with PyQtGraph.
 
-Original code is from example of code of python-sounddevice
+I modified the code from example code of python-sounddevice
 https://github.com/spatialaudio/python-sounddevice/blob/f148dc64c9eb043adcf8de3b34890e8f3df71636/examples/plot_input.py
 """
 import argparse
