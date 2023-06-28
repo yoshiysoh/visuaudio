@@ -67,6 +67,9 @@ parser.add_argument(
     '-t', '--transformer', type=str, default='fourier',
     help='spectrum transformer (default: %(default)s)')
 parser.add_argument(
+    '-s', '--sensitivity', type=float, default=0.01,
+    help='sensitivity of Specirctrogram (default: %(default)s)')
+parser.add_argument(
     '-dr', '--dynamic_radius', type=int, default=0,
     help='dynamic radius (default: %(default)s)')
 args = parser.parse_args(remaining)
@@ -213,7 +216,7 @@ try:
     ########
     r0 = 0.75
     r0f = r0*1.25
-    sensitivity = 0.01
+    sensitivity = args.sensitivity
     power = 1.0
     Nsigma = 1
 
