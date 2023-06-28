@@ -222,11 +222,9 @@ try:
     # plotting
     ########
     app = pg.mkQApp()
-
     win = pg.GraphicsLayoutWidget(show=True)
     win.resize(640, 640)
     win.setWindowTitle("Audircle & Specirctrogram")
-
     p = win.addPlot()
 
     theta = np.linspace(0, 2*np.pi, length)
@@ -277,7 +275,6 @@ try:
     p.hideButtons()
 
     frames = 0
-
     stream = sd.InputStream(
         device=args.device, channels=max(args.channels),
         samplerate=args.samplerate, callback=audio_callback)
