@@ -175,7 +175,7 @@ if args.background_theme=="light":
         color  = np.array(plt.cm.tab10(0)) * 255
         colorf = np.array(plt.cm.tab10(1)) * 255
 elif args.background_theme=="dark":
-    pg.setConfigOption('foreground', 'k')
+    pg.setConfigOption('background', 'k')
     if args.line_color == "matplotlib_cmap":
         import matplotlib.pyplot as plt
         color  = np.array(plt.cm.Set3(0)) * 255
@@ -201,18 +201,20 @@ try:
     length = int(args.window * args.samplerate / (1000 * args.downsample))
     plotdata = np.zeros((length, len(args.channels)))
 
+    # Enable antialiasing for prettier plots
+    # Disable it for faster plot with line width>1.0
+    #pg.setConfigOptions(antialias=True)
+    # Enable numba acceleration
+    pg.setConfigOptions(useNumba=True)
+
+
     app = pg.mkQApp()
 
     win = pg.GraphicsLayoutWidget(show=True)
     win.resize(640, 640)
     win.setWindowTitle("Audircle & Specirctrogram")
 
-    # Enable antialiasing for prettier plots
-    # Disable it for faster plot with line width>1.0
-    #pg.setConfigOptions(antialias=True)
-
     p = win.addPlot()
-
 
     theta = np.linspace(0, 2*np.pi, length)
     theta = np.vstack(theta)
@@ -257,9 +259,9 @@ try:
                 minYRange=r_max, maxYRange=4*r_max)
     p.enableAutoRange('xy', False)
     p.setAspectLocked()
-    p.hideButtons()
     p.showAxis('bottom', False)
     p.showAxis('left', False)
+    p.hideButtons()
 
     frames = 0
 
