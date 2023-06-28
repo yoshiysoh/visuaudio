@@ -58,8 +58,8 @@ parser.add_argument(
     '-n', '--downsample', type=int, default=10, metavar='N',
     help='display every Nth sample (default: %(default)s)')
 parser.add_argument(
-    '-c', '--theme', type=str, default='light',
-    help='color theme (default: %(default)s)')
+    '-bg', '--background_theme', type=str, default='light',
+    help='background theme (default: %(default)s)')
 parser.add_argument(
     '-t', '--transformer', type=str, default='fourier',
     help='spectrum transformer (default: %(default)s)')
@@ -157,9 +157,9 @@ def update_plot(frame):
 
 mpl.rcParams['toolbar'] = 'None'
 mpl.rcParams['figure.constrained_layout.use'] = True
-if args.theme=="light":
+if args.background_theme=="light":
     plt.style.use('fast')
-elif args.theme=="dark":
+elif args.background_theme=="dark":
     plt.style.use('dark_background')
     plt.style.use('fast')
 
