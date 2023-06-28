@@ -227,6 +227,9 @@ try:
     win.setWindowTitle("Audircle & Specirctrogram")
     p = win.addPlot()
 
+    ########
+    # Audircle
+    ########
     theta = np.linspace(0, 2*np.pi, length)
     theta = np.vstack(theta)
     r = plotdata+r0
@@ -237,6 +240,9 @@ try:
     else :
         curve.setPen(color, width=4)
 
+    ########
+    # Specirctrogram
+    ########
     thetaf = fftfreq(length, args.window)[:length//2]
     thetaf = thetaf/thetaf.max() * 2*np.pi
     thetaf = np.vstack(thetaf)
@@ -261,6 +267,9 @@ try:
     else :
         curvef.setPen(colorf, width=4)
 
+    ########
+    # graphics setting
+    ########
     r_max = r0f + 0.5
     p.setXRange(-r_max, r_max)
     p.setYRange(-r_max, r_max)
