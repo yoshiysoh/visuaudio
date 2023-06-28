@@ -58,8 +58,11 @@ parser.add_argument(
     '-n', '--downsample', type=int, default=10, metavar='N',
     help='display every Nth sample (default: %(default)s)')
 parser.add_argument(
-    '-c', '--theme', type=str, default='light',
-    help='color theme (default: %(default)s)')
+    '-bg', '--background_theme', type=str, default='light',
+    help='background theme (default: %(default)s)')
+parser.add_argument(
+    '-lc', '--line_color', type=str, default='matplotlib_cmap',
+    help='line color theme (default: %(default)s)')
 parser.add_argument(
     '-t', '--transformer', type=str, default='fourier',
     help='spectrum transformer (default: %(default)s)')
@@ -111,12 +114,15 @@ def wigner(plotdata):
     rf = np.abs(rf[:length//2]) * 10
     return rf
 
+@njit
 def original_radius(rf):
     return rf+r0f
 
+@njit
 def dynamic_radius(rf):
     return rf+r0f+rf[40:60].mean()
 
+@njit
 def postprocess(rf):
     rf *= sensitivity
     #rf = rf**(power)
@@ -124,6 +130,7 @@ def postprocess(rf):
     rf = radius_processor(rf)
     return rf
 
+@njit
 def polar2cartesian(r, theta):
     x = r*np.cos(theta)
     y = r*np.sin(theta)
@@ -159,10 +166,24 @@ def update_plot():
     frames += 1
 
 
-if args.theme=="light":
+color = None
+colorf = None
+if args.background_theme=="light":
     pg.setConfigOption('background', 'w')
-elif args.theme=="dark":
+    if args.line_color == "matplotlib_cmap":
+        import matplotlib.pyplot as plt
+        color  = np.array(plt.cm.tab10(0)) * 255
+        colorf = np.array(plt.cm.tab10(1)) * 255
+elif args.background_theme=="dark":
     pg.setConfigOption('foreground', 'k')
+    if args.line_color == "matplotlib_cmap":
+        import matplotlib.pyplot as plt
+        color  = np.array(plt.cm.Set3(0)) * 255
+        colorf = np.array(plt.cm.Set3(1)) * 255
+else :
+    raise ValueError("background_theme must be one of 'light' or 'dark'")
+
+
 
 r0 = 0.75
 r0f = r0*1.25
@@ -198,7 +219,10 @@ try:
     r = plotdata+r0
     x, y = polar2cartesian(r, theta)
     curve = p.plot(np.hstack((x, y)), skipFiniteCheck=True)
-    curve.setPen(width=4)
+    if color is None:
+        curve.setPen(width=4)
+    else :
+        curve.setPen(color, width=4)
 
     thetaf = fftfreq(length, args.window)[:length//2]
     thetaf = thetaf/thetaf.max() * 2*np.pi
@@ -219,7 +243,10 @@ try:
     rf = postprocess(rf)
     xf, yf = polar2cartesian(rf, thetaf)
     curvef = p.plot(np.hstack((xf, yf)), skipFiniteCheck=True)
-    curvef.setPen(width=4)
+    if colorf is None:
+        curvef.setPen(width=4)
+    else :
+        curvef.setPen(colorf, width=4)
 
     r_max = r0f + 0.5
     p.setXRange(-r_max, r_max)
