@@ -264,15 +264,16 @@ try:
     r_max = r0f + 0.5
     p.setXRange(-r_max, r_max)
     p.setYRange(-r_max, r_max)
-    p.setLimits(xMin=-2*r_max, xMax=2*r_max,
-                minXRange=r_max, maxXRange=4*r_max,
-                yMin=-2*r_max, yMax=2*r_max,
-                minYRange=r_max, maxYRange=4*r_max)
     p.enableAutoRange('xy', False)
     p.setAspectLocked()
     p.showAxis('bottom', False)
     p.showAxis('left', False)
     p.hideButtons()
+    #p.setLimits(xMin=-2*r_max, xMax=2*r_max,
+    #            minXRange=r_max, maxXRange=4*r_max,
+    #            yMin=-2*r_max, yMax=2*r_max,
+    #            minYRange=r_max, maxYRange=4*r_max)
+    p.setMouseEnabled(x=False, y=False)
 
     frames = 0
     stream = sd.InputStream(
