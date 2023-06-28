@@ -230,6 +230,7 @@ try:
                 minYRange=r_max, maxYRange=4*r_max)
     p.enableAutoRange('xy', False)
     p.setAspectLocked()
+    p.hideButtons()
     p.showAxis('bottom', False)
     p.showAxis('left', False)
 
