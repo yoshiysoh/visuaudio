@@ -166,40 +166,40 @@ def update_plot():
     frames += 1
 
 
-color = None
-colorf = None
-if args.background_theme=="light":
-    pg.setConfigOption('background', 'w')
-    if args.line_color == "matplotlib_cmap":
-        import matplotlib.pyplot as plt
-        color  = np.array(plt.cm.tab10(0)) * 255
-        colorf = np.array(plt.cm.tab10(1)) * 255
-elif args.background_theme=="dark":
-    pg.setConfigOption('background', 'k')
-    if args.line_color == "matplotlib_cmap":
-        import matplotlib.pyplot as plt
-        color  = np.array(plt.cm.Set3(0)) * 255
-        colorf = np.array(plt.cm.Set3(1)) * 255
-else :
-    raise ValueError("background_theme must be one of 'light' or 'dark'")
-
-
-
-r0 = 0.75
-r0f = r0*1.25
-sensitivity = 0.01
-power = 1.0
-Nsigma = 1
 
 
 
 try:
+    ########
+    # python-sounddevice
+    ########
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, 'input')
         args.samplerate = device_info['default_samplerate']
 
     length = int(args.window * args.samplerate / (1000 * args.downsample))
     plotdata = np.zeros((length, len(args.channels)))
+
+
+    ########
+    # pyqtgraph
+    ########
+    color = None
+    colorf = None
+    if args.background_theme=="light":
+        pg.setConfigOption('background', 'w')
+        if args.line_color == "matplotlib_cmap":
+            import matplotlib.pyplot as plt
+            color  = np.array(plt.cm.tab10(0)) * 255
+            colorf = np.array(plt.cm.tab10(1)) * 255
+    elif args.background_theme=="dark":
+        pg.setConfigOption('background', 'k')
+        if args.line_color == "matplotlib_cmap":
+            import matplotlib.pyplot as plt
+            color  = np.array(plt.cm.Set3(0)) * 255
+            colorf = np.array(plt.cm.Set3(1)) * 255
+    else :
+        raise ValueError("background_theme must be one of 'light' or 'dark'")
 
     # Enable antialiasing for prettier plots
     # Disable it for faster plot with line width>1.0
@@ -208,6 +208,19 @@ try:
     pg.setConfigOptions(useNumba=True)
 
 
+    ########
+    # parameters
+    ########
+    r0 = 0.75
+    r0f = r0*1.25
+    sensitivity = 0.01
+    power = 1.0
+    Nsigma = 1
+
+
+    ########
+    # plotting
+    ########
     app = pg.mkQApp()
 
     win = pg.GraphicsLayoutWidget(show=True)
