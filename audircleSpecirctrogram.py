@@ -81,9 +81,9 @@ def audio_callback(indata, frames, time, status):
 
 
 def fourier(plotdata):
-    yf = rfft(plotdata, axis=0)
-    yf = np.abs(yf[:length//2])*0.05
-    return yf
+    rf = rfft(plotdata, axis=0)
+    rf = np.abs(rf[:length//2])**2
+    return rf
 
 def filter4gabor(plotdata):
     length = len(plotdata)
@@ -91,28 +91,37 @@ def filter4gabor(plotdata):
     gaussian_filter = norm.pdf(x_filter,
                                loc=x_filter.mean(),
                                scale=length/2/Nsigma)
+    gaussian_filter = gaussian_filter / gaussian_filter.max()
     gaussian_filter = np.vstack(gaussian_filter)
     return gaussian_filter
 
 def gabor(plotdata):
-    yf = rfft(plotdata*gaussian_filter, axis=0)
-    yf = np.abs(yf[:length//2])*100
-    return yf
+    plotdata_gabor = plotdata*gaussian_filter
+    rf = fourier(plotdata_gabor)
+    return rf
 
 def shifter4wigner(plotdata):
     shifter = len(plotdata)//2
     return shifter
 
 def wigner(plotdata):
-    yf = rfft(plotdata*np.roll(plotdata, -shifter, axis=0), axis=0)
-    yf = np.abs(yf[:length//2])
-    return yf
+    plotdata_wigner = plotdata*np.roll(plotdata, -shifter, axis=0)
+    rf = rfft(plotdata_wigner, axis=0)
+    rf = np.abs(rf[:length//2]) * 10
+    return rf
 
-def original_radius(yf):
-    return yf+r0f
+def original_radius(rf):
+    return rf+r0f
 
-def dynamic_radius(yf):
-    return yf+r0f+yf[40:60].mean()
+def dynamic_radius(rf):
+    return rf+r0f+rf[40:60].mean()
+
+def postprocess(rf):
+    rf *= sensitivity
+    #rf = rf**(power)
+    rf = np.log10(1+rf)
+    rf = radius_processor(rf)
+    return rf
 
 
 def update_plot():
@@ -138,8 +147,7 @@ def update_plot():
     curve.setData(np.hstack((x, y)))
 
     rf = transformer(plotdata)
-    rf = rf**(power)
-    rf = radius_processor(rf)
+    rf = postprocess(rf)
     xf = rf*np.cos(thetaf)
     yf = rf*np.sin(thetaf)
     curvef.setData(np.hstack((xf, yf)))
@@ -154,6 +162,7 @@ elif args.theme=="dark":
 
 r0 = 0.75
 r0f = r0*1.25
+sensitivity = 0.01
 power = 1.0
 Nsigma = 1
 
@@ -199,12 +208,11 @@ try:
         shifter = shifter4wigner(plotdata)
         transformer = wigner
     rf = transformer(plotdata)
-    rf = rf**(power)
     if args.dynamic_radius :
         radius_processor = dynamic_radius
     else :
         radius_processor = original_radius
-    rf = radius_processor(rf)
+    rf = postprocess(rf)
     xf = rf*np.cos(thetaf)
     yf = rf*np.sin(thetaf)
     curvef = p.plot(np.hstack((xf, yf)))
