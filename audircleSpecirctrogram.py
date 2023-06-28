@@ -12,6 +12,7 @@ import sys
 import numpy as np
 from scipy.fft import rfft, fftfreq
 from scipy.stats import norm
+from numba import njit
 import sounddevice as sd
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore
@@ -123,6 +124,11 @@ def postprocess(rf):
     rf = radius_processor(rf)
     return rf
 
+def polar2cartesian(r, theta):
+    x = r*np.cos(theta)
+    y = r*np.sin(theta)
+    return x, y
+
 
 def update_plot():
     """This is called by matplotlib for each plot update.
@@ -142,14 +148,12 @@ def update_plot():
         plotdata[-shift:, :] = data
 
     r = plotdata+r0
-    x = r*np.cos(theta)
-    y = r*np.sin(theta)
+    x, y = polar2cartesian(r, theta)
     curve.setData(np.hstack((x, y)))
 
     rf = transformer(plotdata)
     rf = postprocess(rf)
-    xf = rf*np.cos(thetaf)
-    yf = rf*np.sin(thetaf)
+    xf, yf = polar2cartesian(rf, thetaf)
     curvef.setData(np.hstack((xf, yf)))
 
     frames += 1
@@ -183,7 +187,8 @@ try:
     win.setWindowTitle("Audircle & Specirctrogram")
 
     # Enable antialiasing for prettier plots
-    pg.setConfigOptions(antialias=True)
+    # Disable it for faster plot with line width>1.0
+    #pg.setConfigOptions(antialias=True)
 
     p = win.addPlot()
 
@@ -191,9 +196,8 @@ try:
     theta = np.linspace(0, 2*np.pi, length)
     theta = np.vstack(theta)
     r = plotdata+r0
-    x = r*np.cos(theta)
-    y = r*np.sin(theta)
-    curve = p.plot(np.hstack((x, y)))
+    x, y = polar2cartesian(r, theta)
+    curve = p.plot(np.hstack((x, y)), skipFiniteCheck=True)
     curve.setPen(width=4)
 
     thetaf = fftfreq(length, args.window)[:length//2]
@@ -213,12 +217,11 @@ try:
     else :
         radius_processor = original_radius
     rf = postprocess(rf)
-    xf = rf*np.cos(thetaf)
-    yf = rf*np.sin(thetaf)
-    curvef = p.plot(np.hstack((xf, yf)))
+    xf, yf = polar2cartesian(rf, thetaf)
+    curvef = p.plot(np.hstack((xf, yf)), skipFiniteCheck=True)
     curvef.setPen(width=4)
 
-    r_max = r0f + 0.7
+    r_max = r0f + 0.5
     p.setXRange(-r_max, r_max)
     p.setYRange(-r_max, r_max)
     p.setLimits(xMin=-2*r_max, xMax=2*r_max,
