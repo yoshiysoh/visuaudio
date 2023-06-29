@@ -101,7 +101,7 @@ Real-time audio visualizer/analyzer by Python.
 #### Description
 Inner circle is "Audircle" which visualize the amplitude in circular way.
 
-Outer circle is "Specirctrogram" also visualize the Spectrum in circular way.
+Outer circle is "Specirctrogram" also visualize the spectrogram in circular way.
 
 </details>
 
