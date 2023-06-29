@@ -35,7 +35,7 @@
 
 <h3 align="center">VisuAudiO</h3>
   <p align="center">
-  VisuAudiO is a library for VisuAlize AudiO in real-time in mathematical/physical way.
+  A library for VisuAlizing AudiO in real-time in mathematical/physical way.
 <!--
     <br />
     <a href="https://github.com/yoshiysoh/visuaudio"><strong>Explore the docs</strong></a>
@@ -86,7 +86,12 @@
 ## About The Project
 Real-time audio visualizer/analyzer by Python.
 
-### Work 1 Audircle & Specirctrogram
+### Gallery
+<details> 
+<summary>
+<i>Audircle & Specirctrogram</i>
+</summary>
+
 #### Light background
 <img src="images/screenshot/screenshot_audircleSpecirctrogram_light.png" alt="Logo">
 
@@ -94,9 +99,12 @@ Real-time audio visualizer/analyzer by Python.
 <img src="images/screenshot/screenshot_audircleSpecirctrogram_dark.png" alt="Logo">
 
 #### Description
-Audircle visualize the amplitude in circular way.
+Inner circle is "Audircle" which visualize the amplitude in circular way.
 
-Specirctrogram also visualize the Spectrum in circular way.
+Outer circle is "Specirctrogram" also visualize the Spectrum in circular way.
+
+</details>
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -241,4 +249,3 @@ Project Link: [https://github.com/yoshiysoh/visuaudio](https://github.com/yoshiy
 [license-url]: https://github.com/yoshiysoh/visuaudio/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-
