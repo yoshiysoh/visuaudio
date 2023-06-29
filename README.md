@@ -125,6 +125,8 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 ## Getting Started
 Here, the explanation is using conda but you can use other method to run this code.
 
+See environment.yml for details of required packages.
+
 ### Prerequisites
 Environment for Python.
 
