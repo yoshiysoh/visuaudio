@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/yoshiysoh/visuaudio">
-    <img src="images/logo/logo_light_dark.png" alt="Logo">
+    <img src="logo/logo_light_dark.png" alt="Logo">
   </a>
 
 <h3 align="center">VisuAudiO</h3>
