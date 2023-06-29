@@ -86,6 +86,18 @@
 ## About The Project
 Real-time audio visualizer/analyzer by Python.
 
+### Work 1 Audircle & Specirctrogram
+#### Light background
+<img src="images/screenshot/screenshot_audircleSpecirctrogram_light.png" alt="Logo">
+
+#### Dark background
+<img src="images/screenshot/screenshot_audircleSpecirctrogram_dark.png" alt="Logo">
+
+#### Description
+Audircle visualize the amplitude in circular way.
+
+Specirctrogram also visualize the Spectrum in circular way.
+
 <!--
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
