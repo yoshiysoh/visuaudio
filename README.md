@@ -170,6 +170,7 @@ Environment for Python.
    ```sh
    python example.py
    ```
+4. Allow microphone access for your terminal
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
