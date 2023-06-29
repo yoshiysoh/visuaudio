@@ -98,12 +98,6 @@ Audircle visualize the amplitude in circular way.
 
 Specirctrogram also visualize the Spectrum in circular way.
 
-<!--
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `yoshiysoh`, `visuaudio`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
--->
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -115,19 +109,10 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 * SciPy
 * Numba
 #### Sound input
-* Python-sounddevice
+* python-sounddevice
 #### Visualization
 * Matplotlib
 * PyQtGraph
-<!--
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
--->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -169,7 +154,11 @@ Environment for Python.
    ```sh
    conda activate visuaudio
    ```
-2. Execute the script
+2. Move to destination
+   ```sh
+   cd example
+   ```
+3. Execute the script
    ```sh
    python example.py
    ```
