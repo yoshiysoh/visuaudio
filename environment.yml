@@ -2,8 +2,6 @@ name: visuaudio
 
 dependencies:
   - defaults::python
-  - defaults::line_profiler
-  - defaults::memory_profiler
   - defaults::matplotlib
   - defaults::numba
   - defaults::numpy
