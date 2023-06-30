@@ -107,14 +107,24 @@ def gabor(plotdata):
     rf = fourier(plotdata_gabor)
     return rf
 
-def shifter4wigner(plotdata):
-    shifter = len(plotdata)//2
-    return shifter
+def preprocess4wigner(plotdata):
+    flat_plotdata = plotdata.copy()
+    flat_plotdata = flat_plotdata.flatten()
+    forward_shifted_plotdata = np.zeros((length, length))
+    backward_shifted_plotdata = np.zeros((length, length))
+    for i in range (length):
+        forward_shifted_plotdata[:, i] = np.roll(flat_plotdata, i, axis=0)
+        backward_shifted_plotdata[:, i] = np.roll(flat_plotdata, -i, axis=0)
+    autocorrelation = forward_shifted_plotdata*backward_shifted_plotdata
+    autocorrelation = np.roll(autocorrelation, length//2, axis=1)
+    return autocorrelation
 
 def wigner(plotdata):
-    plotdata_wigner = plotdata*np.roll(plotdata, -shifter, axis=0)
-    rf = rfft(plotdata_wigner, axis=0)
-    rf = np.abs(rf[:length//2]) * 10
+    autocorrelation = preprocess4wigner(plotdata)
+    rf = rfft(autocorrelation, axis=1)
+    rf = np.sum(rf, axis=0)
+    rf = np.abs(rf[:length//2])
+    rf = np.vstack(rf)
     return rf
 
 @njit
@@ -255,7 +265,6 @@ try:
         gaussian_filter =filter4gabor(plotdata)
         transformer = gabor
     elif args.transformer == "wigner":
-        shifter = shifter4wigner(plotdata)
         transformer = wigner
     rf = transformer(plotdata)
     if args.dynamic_radius :
