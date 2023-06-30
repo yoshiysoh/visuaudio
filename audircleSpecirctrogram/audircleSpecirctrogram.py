@@ -255,9 +255,14 @@ try:
     x, y = polar2cartesian(r, theta)
     curve = p.plot(np.hstack((x, y)), skipFiniteCheck=True)
     if color is None:
-        curve.setPen(width=4)
+        curve.setPen(width=4,
+                     capStyle="FlatCap",
+                     joinStyle="MiterJoin")
     else :
-        curve.setPen(color, width=4)
+        curve.setPen(color,
+                     width=4,
+                     capStyle="FlatCap",
+                     joinStyle="MiterJoin")
 
     ########
     # Specirctrogram
@@ -283,9 +288,14 @@ try:
     xf, yf = polar2cartesian(rf, thetaf)
     curvef = p.plot(np.hstack((xf, yf)), skipFiniteCheck=True)
     if colorf is None:
-        curvef.setPen(width=4)
+        curvef.setPen(width=4,
+                      capStyle="FlatCap",
+                      joinStyle="MiterJoin")
     else :
-        curvef.setPen(colorf, width=4)
+        curvef.setPen(colorf,
+                      width=4,
+                      capStyle="FlatCap",
+                      joinStyle="MiterJoin")
 
     ########
     # graphics setting
