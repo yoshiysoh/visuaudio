@@ -110,13 +110,13 @@ def gabor(plotdata):
 def preprocess4wigner(plotdata):
     flat_plotdata = plotdata.copy()
     flat_plotdata = flat_plotdata.flatten()
-    forward_shifted_plotdata = np.zeros((length, length))
+    forward_shifted_plotdata  = np.zeros((length, length))
     backward_shifted_plotdata = np.zeros((length, length))
     for i in range (length):
         forward_shifted_plotdata[:, i] = np.roll(flat_plotdata, i, axis=0)
         backward_shifted_plotdata[:, i] = np.roll(flat_plotdata, -i, axis=0)
     autocorrelation = forward_shifted_plotdata*backward_shifted_plotdata
-    autocorrelation = np.roll(autocorrelation, length//2, axis=1)
+    #autocorrelation = np.roll(autocorrelation, length//2, axis=1)
     return autocorrelation
 
 def wigner(plotdata):
@@ -190,6 +190,12 @@ try:
         device_info = sd.query_devices(args.device, 'input')
         args.samplerate = device_info['default_samplerate']
 
+    wigner_match = False
+    # to match the results of fourier and wigner, 
+    # we need the two-times large window.
+    #if args.transformer == "wigner":
+    #    args.downsample = args.downsample//2
+    #    wigner_match = True
     length = int(args.window * args.samplerate / (1000 * args.downsample))
     plotdata = np.zeros((length, len(args.channels)))
 
@@ -258,6 +264,8 @@ try:
     ########
     thetaf = fftfreq(length, args.window)[:length//2]
     thetaf = thetaf/thetaf.max() * 2*np.pi
+    if args.transformer == "wigner" and wigner_match:
+        thetaf = np.linspace(0, 2*np.pi, length//4 + (length+1)%2)
     thetaf = np.vstack(thetaf)
     if args.transformer == "fourier":
         transformer = fourier
