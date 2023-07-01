@@ -107,25 +107,32 @@ def gabor(plotdata):
     rf = fourier(plotdata_gabor)
     return rf
 
-def preprocess4wigner(plotdata):
-    flat_plotdata = plotdata.copy()
-    flat_plotdata = flat_plotdata.flatten()
-    forward_shifted_plotdata  = np.zeros((length, length))
-    backward_shifted_plotdata = np.zeros((length, length))
-    for i in range (length):
-        forward_shifted_plotdata[:, i] = np.roll(flat_plotdata, i, axis=0)
-        backward_shifted_plotdata[:, i] = np.roll(flat_plotdata, -i, axis=0)
-    autocorrelation = forward_shifted_plotdata*backward_shifted_plotdata
-    #autocorrelation = np.roll(autocorrelation, length//2, axis=1)
-    return autocorrelation
+## for exact wigner transform
+#def preprocess4wigner(plotdata):
+#    flat_plotdata = plotdata.copy()
+#    flat_plotdata = flat_plotdata.flatten()
+#    forward_shifted_plotdata  = np.zeros((length, length))
+#    backward_shifted_plotdata = np.zeros((length, length))
+#    for i in range (length):
+#        forward_shifted_plotdata[:, i] = np.roll(flat_plotdata, i, axis=0)
+#        backward_shifted_plotdata[:, i] = np.roll(flat_plotdata, -i, axis=0)
+#    autocorrelation = forward_shifted_plotdata*backward_shifted_plotdata
+#    #autocorrelation = np.roll(autocorrelation, length//2, axis=1)
+#    return autocorrelation
+#
+## for exact wigner transform
+#def wigner(plotdata):
+#    autocorrelation = preprocess4wigner(plotdata)
+#    rf = rfft(autocorrelation, axis=1)
+#    rf = np.sum(rf, axis=0)
+#    rf = np.abs(rf[:length//2])
+#    rf = np.vstack(rf)
+#    return rf
 
 def wigner(plotdata):
-    autocorrelation = preprocess4wigner(plotdata)
-    rf = rfft(autocorrelation, axis=1)
-    rf = np.sum(rf, axis=0)
-    rf = np.abs(rf[:length//2])
-    rf = np.vstack(rf)
-    return rf
+    plotdata_wigner= np.roll(plotdata, length//2, axis=0)*np.roll(plotdata, -length//2, axis=0)
+    rf = fourier(plotdata_wigner)
+    return rf 
 
 @njit
 def original_radius(rf):
