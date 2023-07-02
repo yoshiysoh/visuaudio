@@ -179,6 +179,8 @@ def update_plot():
     curve.setData(np.hstack((x, y)))
 
     rf = transformer(plotdata)
+    intensity = np.sum(rf)
+    text.setText('intensity: {:07.2f}'.format(intensity))
     rf = postprocess(rf)
     xf, yf = polar2cartesian(rf, thetaf)
     curvef.setData(np.hstack((xf, yf)))
@@ -320,6 +322,14 @@ try:
     #            yMin=-2*r_max, yMax=2*r_max,
     #            minYRange=r_max, maxYRange=4*r_max)
     p.setMouseEnabled(x=False, y=False)
+
+    ########
+    # text
+    ########
+    text = pg.TextItem("test", color='k')
+    p.addItem(text)
+    text.setPos(0.6*r_max, 0.9*r_max)
+
 
     frames = 0
     stream = sd.InputStream(
