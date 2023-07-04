@@ -2,6 +2,8 @@ name: visuaudio
 
 dependencies:
   - defaults::python
+  - defaults::colorcet
+  - defaults::h5py
   - defaults::matplotlib
   - defaults::numba
   - defaults::numpy
