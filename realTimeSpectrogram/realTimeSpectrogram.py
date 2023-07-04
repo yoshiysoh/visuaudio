@@ -58,7 +58,7 @@ parser.add_argument(
     '-n', '--downsample', type=int, default=8, metavar='N',
     help='display every Nth sample (default: %(default)s)')
 parser.add_argument(
-    '-bg', '--background_theme', type=str, default='light',
+    '-bg', '--background_theme', type=str, default='dark',
     help='background theme (default: %(default)s)')
 parser.add_argument(
     '-lc', '--line_color', type=str, default='matplotlib_cmap',
@@ -132,7 +132,7 @@ def gabor(plotdata):
 def wigner(plotdata):
     plotdata_wigner= np.roll(plotdata, length//2, axis=0)*np.roll(plotdata, -length//2, axis=0)
     rf = fourier(plotdata_wigner)
-    return rf 
+    return rf
 
 @njit
 def original_radius(rf):
@@ -204,22 +204,21 @@ try:
     #    wigner_match = True
     length = int(args.window * args.samplerate / (1000 * args.downsample))
     plotdata = np.zeros((length, len(args.channels)))
-    Nplotframes = 30*16
+    Nplotframes = 28*8
     spectrogramdata= np.zeros((length//2, Nplotframes))
 
 
     ########
     # pyqtgraph
     ########
-    color = None
-    colorf = None
     if args.background_theme=="light":
         pg.setConfigOption('background', 'w')
         cmap = pg.colormap.getFromMatplotlib("Blues")
         #cmap = pg.colormap.get("CET-L2")
     elif args.background_theme=="dark":
         pg.setConfigOption('background', 'k')
-        cmap = pg.colormap.getFromMatplotlib("viridis")
+        #cmap = pg.colormap.getFromMatplotlib("viridis")
+        cmap = None
         #cmap = pg.colormap.get("CET-L1")
     else :
         raise ValueError("background_theme must be one of 'light' or 'dark'")
@@ -268,8 +267,9 @@ try:
     spectrogram = pg.ImageItem(
         spectrogramdata.T,
         levels=(0.0, 4.0),
-        colorMap=cmap,
     )
+    if cmap is not None:
+        spectrogram.setColorMap(cmap)
     p.addItem(spectrogram)
 
     ########
