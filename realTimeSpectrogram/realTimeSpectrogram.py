@@ -246,7 +246,7 @@ try:
     app = pg.mkQApp()
     win = pg.GraphicsLayoutWidget(show=True)
     win.resize(640, 640)
-    win.setWindowTitle("Audircle & Specirctrogram")
+    win.setWindowTitle("Real-Time Spectrogram")
     p = win.addPlot()
     vb = p.getViewBox()
 
