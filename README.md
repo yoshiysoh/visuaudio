@@ -100,6 +100,7 @@ Real-time audio visualizer/analyzer by Python.
 
 #### Description
 Inner circle is "Audircle" which visualize the amplitude in circular way.
+Inspired from de-Broglie's interpretation of Bohr's model.
 
 Outer circle is "Specirctrogram" also visualize the spectrogram in circular way.
 
