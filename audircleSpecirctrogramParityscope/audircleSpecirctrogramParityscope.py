@@ -183,7 +183,7 @@ def update_plot():
     xf, yf = polar2cartesian(rf, thetaf)
     curvef.setData(np.hstack((xf, yf)))
 
-    curvep.setData(np.hstack((plotdata, -plotdata[::-1])))
+    scatter.setData(pos=2*np.hstack((plotdata, -plotdata[::-1])))
 
     frames += 1
 
@@ -311,16 +311,20 @@ try:
     ########
     # Parityscope
     ########
-    curvep = p.plot(np.hstack((plotdata, plotdata[::-1])), skipFiniteCheck=True)
+    scatter = pg.ScatterPlotItem(pos=2*np.hstack((plotdata, plotdata[::-1])),
+                                 pxMode=True,
+                                 size=2,
+                                 pen=None,)
     if colorf is None:
-        curvep.setPen(width=2,
-                      capStyle="FlatCap",
-                      joinStyle="MiterJoin")
+        scatter.setBrush(width=2,
+                         capStyle="FlatCap",
+                         joinStyle="MiterJoin")
     else :
-        curvep.setPen(colorp,
-                      width=2,
-                      capStyle="FlatCap",
-                      joinStyle="MiterJoin")
+        scatter.setBrush(pg.mkColor(colorp),
+                         width=2,
+                         capStyle="FlatCap",
+                         joinStyle="MiterJoin")
+    p.addItem(scatter)
 
     ########
     # graphics setting
