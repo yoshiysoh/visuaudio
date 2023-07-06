@@ -106,7 +106,33 @@ Outer circle is "Specirctrogram" also visualize the spectrogram in circular way.
 
 </details>
 
+<details> 
+<summary>
+<i>Real-Time Spectrogram</i>
+</summary>
 
+#### Light background
+
+#### Dark background
+
+#### Description
+Show the spectrum of sound in real time.
+
+</details>
+
+<details> 
+<summary>
+<i>Parity Scope</i>
+</summary>
+
+#### Light background
+
+#### Dark background
+
+#### Description
+Check the parity of the wave.
+
+</details>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
