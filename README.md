@@ -117,6 +117,8 @@ Outer circle is "Specirctrogram" also visualize the spectrogram in circular way.
 
 #### Description
 Show the spectrum of sound in real time.
+Horizontal axis shows time and vertical axis shows frequency.
+The color indicates common logarithm of the squared magnitude.
 
 </details>
 
@@ -131,6 +133,11 @@ Show the spectrum of sound in real time.
 
 #### Description
 Check the parity of the wave.
+Inspired from phase scope.
+In quantum mechanics, parity plays important role.
+Here, the simplest way to check parity.
+Horizontal coordinate of each dot indicates the amplitude of signal.
+Vertical coordinate of each dot indicates the time-inverted amplitude of signal.
 
 </details>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
