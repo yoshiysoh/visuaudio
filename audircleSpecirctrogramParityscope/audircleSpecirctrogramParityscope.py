@@ -64,7 +64,7 @@ parser.add_argument(
     '-lc', '--line_color', type=str, default='matplotlib_cmap',
     help='line color theme (default: %(default)s)')
 parser.add_argument(
-    '-t', '--transformer', type=str, default='fourier',
+    '-t', '--transformer', type=str, default='hamming',
     help='spectrum transformer (default: %(default)s)')
 parser.add_argument(
     '-s', '--sensitivity', type=float, default=0.01,
@@ -132,6 +132,26 @@ def wigner(plotdata):
     plotdata_wigner= np.roll(plotdata, length//2, axis=0)*np.roll(plotdata, -length//2, axis=0)
     rf = fourier(plotdata_wigner)
     return rf 
+
+def window4bartlett():
+    return np.vstack(np.bartlett(length))
+
+def window4blackman():
+    return np.vstack(np.blackman(length))
+
+def window4hamming():
+    return np.vstack(np.hamming(length))
+
+def window4hanning():
+    return np.vstack(np.hanning(length))
+
+def window4kaiser():
+    return np.vstack(np.kaiser(length))
+
+def window_fourier(plotdata):
+    plotdata_window = plotdata*window
+    rf = fourier(plotdata_window)
+    return rf
 
 @njit
 def original_radius(rf):
@@ -289,6 +309,16 @@ try:
         transformer = gabor
     elif args.transformer == "wigner":
         transformer = wigner
+    elif args.transformer in ("bartlett", "blackman", "hamming", "hanning", "kaiser"):
+        windows = {
+            "bartlett": window4bartlett,
+            "blackman": window4blackman,
+            "hamming":  window4hamming,
+            "hanning":  window4hanning,
+            "kaiser":   window4kaiser,
+        }
+        window = windows[args.transformer]()
+        transformer = window_fourier
     rf = transformer(np.vstack(plotdata.mean(axis=1)))
     if args.dynamic_radius :
         radius_processor = dynamic_radius
