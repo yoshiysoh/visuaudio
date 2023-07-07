@@ -93,7 +93,6 @@ def fourier(plotdata):
     return rf
 
 def filter4gabor(plotdata):
-    length = len(plotdata)
     x_filter = np.arange(length)
     gaussian_filter = norm.pdf(x_filter,
                                loc=x_filter.mean(),
@@ -174,16 +173,16 @@ def update_plot():
         plotdata = np.roll(plotdata, -shift, axis=0)
         plotdata[-shift:, :] = data
 
-    r = plotdata+r0
+    r = np.vstack(np.vstack(plotdata.mean(axis=1)))+r0
     x, y = polar2cartesian(r, theta)
     curve.setData(np.hstack((x, y)))
 
-    rf = transformer(plotdata)
+    rf = transformer(np.vstack(plotdata.mean(axis=1)))
     rf = postprocess(rf)
     xf, yf = polar2cartesian(rf, thetaf)
     curvef.setData(np.hstack((xf, yf)))
 
-    scatter.setData(pos=2*np.hstack((plotdata, -plotdata[::-1])))
+    scatter.setData(pos=2*np.hstack((np.vstack(plotdata.mean(axis=1)), np.vstack(plotdata.mean(axis=1))[::-1])))
 
     frames += 1
 
@@ -262,7 +261,7 @@ try:
     ########
     theta = np.linspace(0, 2*np.pi, length)
     theta = np.vstack(theta)
-    r = plotdata+r0
+    r = np.vstack(plotdata.mean(axis=1))+r0
     x, y = polar2cartesian(r, theta)
     curve = p.plot(np.hstack((x, y)), skipFiniteCheck=True)
     if color is None:
@@ -290,7 +289,7 @@ try:
         transformer = gabor
     elif args.transformer == "wigner":
         transformer = wigner
-    rf = transformer(plotdata)
+    rf = transformer(np.vstack(plotdata.mean(axis=1)))
     if args.dynamic_radius :
         radius_processor = dynamic_radius
     else :
@@ -311,7 +310,7 @@ try:
     ########
     # Parityscope
     ########
-    scatter = pg.ScatterPlotItem(pos=2*np.hstack((plotdata, plotdata[::-1])),
+    scatter = pg.ScatterPlotItem(pos=2*np.hstack((np.vstack(plotdata.mean(axis=1)), np.vstack(plotdata.mean(axis=1))[::-1])),
                                  pxMode=True,
                                  size=2,
                                  pen=None,)
