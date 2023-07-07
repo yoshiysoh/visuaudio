@@ -175,8 +175,12 @@ def polar2cartesian(r, theta):
     y = r*np.sin(theta)
     return x, y
 
-def stereo2monaural(plotdata):
-    return np.vstack(plotdata.mean(axis=1))
+if len(args.channels) == 1 :
+    def stereo2monaural(plotdata):
+        return plotdata
+else :
+    def stereo2monaural(plotdata):
+        return np.vstack(plotdata.mean(axis=1))
 
 def update_plot():
     """This is called by matplotlib for each plot update.
