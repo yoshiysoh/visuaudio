@@ -175,6 +175,8 @@ def polar2cartesian(r, theta):
     y = r*np.sin(theta)
     return x, y
 
+def stereo2monaural(plotdata):
+    return np.vstack(plotdata.mean(axis=1))
 
 def update_plot():
     """This is called by matplotlib for each plot update.
@@ -193,16 +195,16 @@ def update_plot():
         plotdata = np.roll(plotdata, -shift, axis=0)
         plotdata[-shift:, :] = data
 
-    r = np.vstack(np.vstack(plotdata.mean(axis=1)))+r0
+    r = stereo2monaural(plotdata)+r0
     x, y = polar2cartesian(r, theta)
     curve.setData(np.hstack((x, y)))
 
-    rf = transformer(np.vstack(plotdata.mean(axis=1)))
+    rf = transformer(stereo2monaural(plotdata))
     rf = postprocess(rf)
     xf, yf = polar2cartesian(rf, thetaf)
     curvef.setData(np.hstack((xf, yf)))
 
-    scatter.setData(pos=2*np.hstack((np.vstack(plotdata.mean(axis=1)), np.vstack(plotdata.mean(axis=1))[::-1])))
+    scatter.setData(pos=2*np.hstack((stereo2monaural(plotdata), stereo2monaural(plotdata)[::-1])))
 
     frames += 1
 
@@ -281,7 +283,7 @@ try:
     ########
     theta = np.linspace(0, 2*np.pi, length)
     theta = np.vstack(theta)
-    r = np.vstack(plotdata.mean(axis=1))+r0
+    r = stereo2monaural(plotdata)+r0
     x, y = polar2cartesian(r, theta)
     curve = p.plot(np.hstack((x, y)), skipFiniteCheck=True)
     if color is None:
@@ -319,7 +321,7 @@ try:
         }
         window = windows[args.transformer]()
         transformer = window_fourier
-    rf = transformer(np.vstack(plotdata.mean(axis=1)))
+    rf = transformer(stereo2monaural(plotdata))
     if args.dynamic_radius :
         radius_processor = dynamic_radius
     else :
@@ -340,7 +342,7 @@ try:
     ########
     # Parityscope
     ########
-    scatter = pg.ScatterPlotItem(pos=2*np.hstack((np.vstack(plotdata.mean(axis=1)), np.vstack(plotdata.mean(axis=1))[::-1])),
+    scatter = pg.ScatterPlotItem(pos=2*np.hstack((stereo2monaural(plotdata), stereo2monaural(plotdata)[::-1])),
                                  pxMode=True,
                                  size=2,
                                  pen=None,)
