@@ -112,8 +112,10 @@ Outer circle is "Specirctrogram" also visualize the spectrogram in circular way.
 </summary>
 
 #### Light background
+<img src="images/screenshot/screenshot_realTimeSpectrogram_light.png" alt="Logo">
 
 #### Dark background
+<img src="images/screenshot/screenshot_realTimeSpectrogram_dark.png" alt="Logo">
 
 #### Description
 Show the spectrum of sound in real time.
@@ -128,16 +130,19 @@ The color indicates common logarithm of the squared magnitude.
 </summary>
 
 #### Light background
+<img src="images/screenshot/screenshot_parityScope_light.png" alt="Logo">
 
 #### Dark background
+<img src="images/screenshot/screenshot_parityScope_dark.png" alt="Logo">
 
 #### Description
 Check the parity of the wave.
 Inspired from phase scope.
 In quantum mechanics, parity plays important role.
-Here, the simplest way to check parity.
-Horizontal coordinate of each dot indicates the amplitude of signal.
-Vertical coordinate of each dot indicates the time-inverted amplitude of signal.
+The simplest way to check parity is plot sampled wave point on horizontal axis 
+and its reverse on vertical axis.
+If the sampled data point align on the line with slope 1, the wave has even parity.
+In the case of slope -1, the wave has odd parity.
 
 </details>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
