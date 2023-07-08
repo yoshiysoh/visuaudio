@@ -28,7 +28,7 @@ def int_or_str(text):
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument(
-    '-l', '--list-devices', action='store_true',
+    '--list-devices', action='store_true',
     help='show list of audio devices and exit')
 args, remaining = parser.parse_known_args()
 if args.list_devices:
@@ -42,7 +42,7 @@ parser.add_argument(
     'channels', type=int, default=[1], nargs='*', metavar='CHANNEL',
     help='input channels to plot (default: the first)')
 parser.add_argument(
-    '-d', '--device', type=int_or_str,
+    '--device', type=int_or_str,
     help='input device (numeric ID or substring)')
 parser.add_argument(
     '-w', '--window', type=float, default=200, metavar='DURATION',
@@ -51,17 +51,20 @@ parser.add_argument(
     '-i', '--interval', type=float, default=30,
     help='minimum time between plot updates (default: %(default)s ms)')
 parser.add_argument(
-    '-b', '--blocksize', type=int, help='block size (in samples)')
+    '--blocksize', type=int, help='block size (in samples)')
 parser.add_argument(
     '-r', '--samplerate', type=float, help='sampling rate of audio device')
 parser.add_argument(
-    '-n', '--downsample', type=int, default=8, metavar='N',
+    '-d', '--downsample', type=int, default=8, metavar='N',
     help='display every Nth sample (default: %(default)s)')
 parser.add_argument(
-    '-bg', '--background_theme', type=str, default='light',
+    '-b', '--background-theme', type=str, default='light',
     help='background theme (default: %(default)s)')
 parser.add_argument(
-    '-lc', '--line_color', type=str, default='matplotlib_cmap',
+    '-l', '--linewidth', type=float, default=4.0,
+    help='line width (default: %(default)s)')
+parser.add_argument(
+    '-c', '--linecolor', type=str, default='matplotlib',
     help='line color theme (default: %(default)s)')
 parser.add_argument(
     '-t', '--transformer', type=str, default='hamming',
@@ -70,8 +73,8 @@ parser.add_argument(
     '-s', '--sensitivity', type=float, default=0.01,
     help='sensitivity of Specirctrogram (default: %(default)s)')
 parser.add_argument(
-    '-dr', '--dynamic_radius', type=int, default=0,
-    help='dynamic radius (default: %(default)s)')
+    '--dynamicradius', action='store_true',
+    help='enable dynamic radius or not (default: %(default))')
 args = parser.parse_args(remaining)
 if any(c < 1 for c in args.channels):
     parser.error('argument CHANNEL: must be >= 1')
@@ -242,14 +245,14 @@ try:
     colorf = None
     if args.background_theme=="light":
         pg.setConfigOption('background', 'w')
-        if args.line_color == "matplotlib_cmap":
+        if args.linecolor == "matplotlib":
             import matplotlib.pyplot as plt
             color  = np.array(plt.cm.tab10(0)) * 255
             colorf = np.array(plt.cm.tab10(1)) * 255
             colorp = np.array(plt.cm.tab10(2)) * 255
     elif args.background_theme=="dark":
         pg.setConfigOption('background', 'k')
-        if args.line_color == "matplotlib_cmap":
+        if args.linecolor == "matplotlib":
             import matplotlib.pyplot as plt
             color  = np.array(plt.cm.Set3(0)) * 255
             colorf = np.array(plt.cm.Set3(1)) * 255
@@ -259,7 +262,11 @@ try:
 
     # Enable antialiasing for prettier plots
     # Disable it for faster plot with line width>1.0
-    #pg.setConfigOptions(antialias=True)
+    linewidth = args.linewidth
+    if linewidth == 1.0:
+        pg.setConfigOptions(antialias=True)
+    else:
+        pg.setConfigOptions(antialias=False)
     # Enable numba acceleration
     pg.setConfigOptions(useNumba=True)
 
@@ -292,12 +299,12 @@ try:
     x, y = polar2cartesian(r, theta)
     curve = p.plot(np.hstack((x, y)), skipFiniteCheck=True)
     if color is None:
-        curve.setPen(width=4,
+        curve.setPen(width=linewidth,
                      capStyle="FlatCap",
                      joinStyle="MiterJoin")
     else :
         curve.setPen(color,
-                     width=4,
+                     width=linewidth,
                      capStyle="FlatCap",
                      joinStyle="MiterJoin")
 
@@ -327,7 +334,7 @@ try:
         window = windows[args.transformer]()
         transformer = window_fourier
     rf = transformer(stereo2monaural(plotdata))
-    if args.dynamic_radius :
+    if args.dynamicradius :
         radius_processor = dynamic_radius
     else :
         radius_processor = original_radius
@@ -335,12 +342,12 @@ try:
     xf, yf = polar2cartesian(rf, thetaf)
     curvef = p.plot(np.hstack((xf, yf)), skipFiniteCheck=True)
     if colorf is None:
-        curvef.setPen(width=4,
+        curvef.setPen(width=linewidth,
                       capStyle="FlatCap",
                       joinStyle="MiterJoin")
     else :
         curvef.setPen(colorf,
-                      width=4,
+                      width=linewidth,
                       capStyle="FlatCap",
                       joinStyle="MiterJoin")
 
@@ -352,12 +359,12 @@ try:
                                  size=2,
                                  pen=None,)
     if colorf is None:
-        scatter.setBrush(width=2,
+        scatter.setBrush(width=linewidth,
                          capStyle="FlatCap",
                          joinStyle="MiterJoin")
     else :
         scatter.setBrush(pg.mkColor(colorp),
-                         width=2,
+                         width=linewidth,
                          capStyle="FlatCap",
                          joinStyle="MiterJoin")
     p.addItem(scatter)
