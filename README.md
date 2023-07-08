@@ -130,9 +130,23 @@ The color indicates common logarithm of the squared magnitude.
 </summary>
 
 #### Light background
+   ```sh
+   python audircleSpecirctrogramParityscope.py
+   ```
+or
+   ```sh
+   python audircleSpecirctrogramParityscope.py -l 1
+   ```
 <img src="images/screenshot/screenshot_parityScope_light.png" alt="Logo">
 
 #### Dark background
+   ```sh
+   python audircleSpecirctrogramParityscope.py -b dark
+   ```
+or
+   ```sh
+   python audircleSpecirctrogramParityscope.py -b dark -l 1
+   ```
 <img src="images/screenshot/screenshot_parityScope_dark.png" alt="Logo">
 
 #### Description
