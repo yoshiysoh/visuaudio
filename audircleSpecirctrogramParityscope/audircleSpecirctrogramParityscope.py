@@ -129,8 +129,9 @@ def gabor(plotdata):
 #    return rf
 
 def wigner(plotdata):
-    plotdata_wigner= np.roll(plotdata, length//2, axis=0)*np.roll(plotdata, -length//2, axis=0)
+    plotdata_wigner= plotdata * np.roll(plotdata, length//2, axis=0)
     rf = fourier(plotdata_wigner)
+    rf *= 10000
     return rf 
 
 def window4bartlett():
