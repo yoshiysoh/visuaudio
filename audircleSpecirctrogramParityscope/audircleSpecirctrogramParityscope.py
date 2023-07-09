@@ -109,33 +109,30 @@ def gabor(plotdata):
     rf = fourier(plotdata_gabor)
     return rf
 
-## for exact wigner transform
-#def preprocess4wigner(plotdata):
-#    flat_plotdata = plotdata.copy()
-#    flat_plotdata = flat_plotdata.flatten()
-#    forward_shifted_plotdata  = np.zeros((length, length))
-#    backward_shifted_plotdata = np.zeros((length, length))
-#    for i in range (length):
-#        forward_shifted_plotdata[:, i] = np.roll(flat_plotdata, i, axis=0)
-#        backward_shifted_plotdata[:, i] = np.roll(flat_plotdata, -i, axis=0)
-#    autocorrelation = forward_shifted_plotdata*backward_shifted_plotdata
-#    #autocorrelation = np.roll(autocorrelation, length//2, axis=1)
-#    return autocorrelation
-#
-## for exact wigner transform
-#def wigner(plotdata):
-#    autocorrelation = preprocess4wigner(plotdata)
-#    rf = rfft(autocorrelation, axis=1)
-#    rf = np.sum(rf, axis=0)
-#    rf = np.abs(rf[:length//2])
-#    rf = np.vstack(rf)
-#    return rf
+def create_index4wigner(length):
+    original_index = np.arange(length)
+    index4wigner_forward = original_index.copy()
+    index4wigner_backward = original_index.copy()
+    for i in range (1, length//2):
+        index4wigner_forward  = np.append(index4wigner_forward,  np.roll(original_index,  i))
+        index4wigner_backward = np.append(index4wigner_backward, np.roll(original_index, -i))
+    return index4wigner_forward, index4wigner_backward
+
+def preprocess4wigner(plotdata, index_f, index_b):
+    forward_shifted_plotdata  = plotdata[index_f].reshape(-1, length).T
+    backward_shifted_plotdata = plotdata[index_b].reshape(-1, length).T
+    autocorrelation = forward_shifted_plotdata*backward_shifted_plotdata
+    autocorrelation = np.roll(autocorrelation, length//2, axis=1)
+    return autocorrelation
 
 def wigner(plotdata):
-    plotdata_wigner= plotdata * np.roll(plotdata, length//2, axis=0)
-    rf = fourier(plotdata_wigner)
-    rf *= 10000
-    return rf 
+    autocorrelation = preprocess4wigner(plotdata, index_f, index_b)
+    rf = rfft(autocorrelation, axis=1)
+    rf = np.sum(rf, axis=0)
+    rf = np.abs(rf[:length//2])
+    rf = np.vstack(rf)
+    rf *= 0.1
+    return rf
 
 def window4bartlett():
     return np.vstack(np.bartlett(length))
@@ -193,7 +190,7 @@ def update_plot():
     therefore the queue tends to contain multiple blocks of audio data.
 
     """
-    global plotdata, curve, curvef, p, frames
+    global plotdata, curve, curvef, scatter, frames
     while True:
         try:
             data = q.get_nowait()
@@ -313,15 +310,17 @@ try:
     ########
     thetaf = fftfreq(length, args.window)[:length//2]
     thetaf = thetaf/thetaf.max() * 2*np.pi
-    if args.transformer == "wigner" and wigner_match:
-        thetaf = np.linspace(0, 2*np.pi, length//4 + (length+1)%2)
+    if args.transformer == "wigner" :
+        thetaf = np.linspace(0, 2*np.pi, length//2//2 + 1)
     thetaf = np.vstack(thetaf)
+
     if args.transformer == "fourier":
         transformer = fourier
     elif args.transformer == "gabor":
         gaussian_filter =filter4gabor(plotdata)
         transformer = gabor
     elif args.transformer == "wigner":
+        index_f, index_b = create_index4wigner(length)
         transformer = wigner
     elif args.transformer in ("bartlett", "blackman", "hamming", "hanning", "kaiser"):
         windows = {
