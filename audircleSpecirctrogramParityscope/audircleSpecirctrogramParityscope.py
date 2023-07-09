@@ -118,10 +118,16 @@ def create_index4wigner(length):
         index4wigner_backward = np.append(index4wigner_backward, np.roll(original_index, -i))
     return index4wigner_forward, index4wigner_backward
 
-def preprocess4wigner(plotdata, index_f, index_b):
-    forward_shifted_plotdata  = plotdata[index_f].reshape(-1, length).T
-    backward_shifted_plotdata = plotdata[index_b].reshape(-1, length).T
+@njit
+def calc_autocorrelation(plotdata, index_f, index_b):
+    forward_shifted_plotdata  = plotdata[index_f]
+    backward_shifted_plotdata = plotdata[index_b]
     autocorrelation = forward_shifted_plotdata*backward_shifted_plotdata
+    return autocorrelation
+
+def preprocess4wigner(plotdata, index_f, index_b):
+    autocorrelation = calc_autocorrelation(plotdata, index_f, index_b)
+    autocorrelation = autocorrelation.reshape(-1, length).T
     autocorrelation = np.roll(autocorrelation, length//2, axis=1)
     return autocorrelation
 
@@ -131,7 +137,7 @@ def wigner(plotdata):
     rf = np.sum(rf, axis=0)
     rf = np.abs(rf[:length//2])
     rf = np.vstack(rf)
-    rf *= 0.1
+    rf *= 0.2
     return rf
 
 def window4bartlett():
