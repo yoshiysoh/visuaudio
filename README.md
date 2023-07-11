@@ -162,6 +162,12 @@ In the case of slope -1, the wave has odd parity.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+### Demo
+Click the image to see the demo video on YouTube.
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/4UdB0nVINFw/0.jpg)](http://www.youtube.com/watch?v=4UdB0nVINFw)
+
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/-MK8ZAiv0SE/0.jpg)](http://www.youtube.com/watch?v=-MK8ZAiv0SE)
+
 
 ### Requirements
 #### Basics
