@@ -170,6 +170,7 @@ Click the image to see the demo video on YouTube.
 
 
 ### Requirements
+See the `environment.yml` for full requirements.
 #### Basics
 * Python
 * NumPy
@@ -178,8 +179,8 @@ Click the image to see the demo video on YouTube.
 #### Sound input
 * python-sounddevice
 #### Visualization
-* Matplotlib
 * PyQtGraph
+* Matplotlib
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -189,7 +190,7 @@ Click the image to see the demo video on YouTube.
 ## Getting Started
 Here, the explanation is using conda but you can use other method to run this code.
 
-See environment.yml for details of required packages.
+See `environment.yml` for details of required packages.
 
 ### Prerequisites
 Environment for Python.
@@ -238,7 +239,11 @@ Environment for Python.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Spectrum analysis
+- [x] Audio wave Visualization
+- [x] Real-time spectrum analysis
+- [x] Phase scope like phase checker
+- [ ] Audio/spectrum dependent Bezier curve
+- [ ] Audio/spectrum dependent kaleidoscope
 
 See the [open issues](https://github.com/yoshiysoh/visuaudio/issues) for a full list of proposed features (and known issues).
 
