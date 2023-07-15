@@ -70,7 +70,7 @@ parser.add_argument(
     '-t', '--transformer', type=str, default='hamming',
     help='spectrum transformer (default: %(default)s)')
 parser.add_argument(
-    '-s', '--sensitivity', type=float, default=0.01,
+    '-s', '--sensitivity', type=float, default=0.005,
     help='sensitivity of Specirctrogram (default: %(default)s)')
 parser.add_argument(
     '--dynamicradius', action='store_true',
@@ -170,11 +170,10 @@ def dynamic_radius(rf):
 
 @njit
 def postprocess(theta):
-    #rf *= sensitivity
-    #rf = rf**(power)
+    theta *= sensitivity
     theta = np.log10(1+theta)
-    theta = 2*np.pi*theta
-    theta = np.cumsum(theta)*sensitivity
+    #theta = 1/(1+np.exp(-theta))
+    #theta = np.sign(theta)*sensitivity
     return theta
 
 @njit
@@ -197,7 +196,7 @@ def update_plot():
     therefore the queue tends to contain multiple blocks of audio data.
 
     """
-    global plotdata, curve, curvef, scatter, frames
+    global plotdata, curve, curvef, scatter, frames, theta_individual
     while True:
         try:
             data = q.get_nowait()
@@ -207,11 +206,14 @@ def update_plot():
         plotdata = np.roll(plotdata, -shift, axis=0)
         plotdata[-shift:, :] = data
 
-    theta = transformer(stereo2monaural(plotdata))
-    theta = postprocess(theta)
+    delta_theta = transformer(stereo2monaural(plotdata))
+    delta_theta = postprocess(delta_theta)
+    theta_individual += delta_theta
+    theta = np.vstack(np.cumsum(theta_individual))
+    theta = np.vstack(theta)
     x, y = polar2cartesian(r, theta)
-    x_plot = np.cumsum(x)
-    y_plot = np.cumsum(y)
+    x_plot = np.vstack(np.cumsum(x))
+    y_plot = np.vstack(np.cumsum(y))
     curvef.setData(np.hstack((x_plot, y_plot)))
 
     frames += 1
@@ -277,7 +279,6 @@ try:
     r0 = 0.75
     r0f = r0*1.25
     sensitivity = args.sensitivity
-    sensitivity = 1
     power = 1.0
     Nsigma = 1
 
@@ -312,12 +313,13 @@ try:
         }
         window = windows[args.transformer]()
         transformer = window_fourier
-    theta = transformer(stereo2monaural(plotdata))
-    theta = postprocess(theta)
+    theta_individual = transformer(stereo2monaural(plotdata))
+    theta_individual = postprocess(theta_individual)
+    theta = np.vstack(np.cumsum(theta_individual))
     r = np.vstack(np.ones(len(theta)))
     x, y = polar2cartesian(r, theta)
-    x_plot = np.cumsum(x)
-    y_plot = np.cumsum(y)
+    x_plot = np.vstack(np.cumsum(x))
+    y_plot = np.vstack(np.cumsum(y))
     curvef = p.plot(np.hstack((x_plot, y_plot)), skipFiniteCheck=True)
     if colorf is None:
         curvef.setPen(width=linewidth,
@@ -333,7 +335,7 @@ try:
     ########
     # graphics setting
     ########
-    r_max = len(theta)
+    r_max = len(theta)*0.1
     p.setXRange(-r_max, r_max)
     p.setYRange(-r_max, r_max)
     p.enableAutoRange('xy', False)
