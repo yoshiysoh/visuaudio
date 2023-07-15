@@ -254,15 +254,15 @@ try:
         pg.setConfigOption('background', 'w')
         if args.linecolor == "matplotlib":
             import matplotlib.pyplot as plt
-            color  = np.array(plt.cm.tab10(0)) * 255
-            colorf = np.array(plt.cm.tab10(1)) * 255
+            colorf  = np.array(plt.cm.tab10(0)) * 255
+            color = np.array(plt.cm.tab10(1)) * 255
             colorp = np.array(plt.cm.tab10(2)) * 255
     elif args.background_theme=="dark":
         pg.setConfigOption('background', 'k')
         if args.linecolor == "matplotlib":
             import matplotlib.pyplot as plt
-            color  = np.array(plt.cm.Set3(0)) * 255
-            colorf = np.array(plt.cm.Set3(1)) * 255
+            colorf  = np.array(plt.cm.Set3(0)) * 255
+            color = np.array(plt.cm.Set3(1)) * 255
             colorp = np.array(plt.cm.Set3(2)) * 255
     else :
         raise ValueError("background_theme must be one of 'light' or 'dark'")
@@ -294,7 +294,7 @@ try:
     app = pg.mkQApp()
     win = pg.GraphicsLayoutWidget(show=True)
     win.resize(640, 640)
-    win.setWindowTitle("Audircle, Specirctrogram and Parityscope")
+    win.setWindowTitle("Spendulum")
     p = win.addPlot()
 
     ########
@@ -320,6 +320,7 @@ try:
         transformer = window_fourier
     theta_individual = transformer(stereo2monaural(plotdata))
     theta_individual = postprocess(theta_individual)
+    theta_individual += np.vstack(np.random.normal(0, 1000, size=len(theta_individual)))
     theta = np.vstack(np.cumsum(theta_individual))
     r = np.vstack(np.ones(len(theta)))
     x, y = polar2cartesian(r, theta)
@@ -335,9 +336,19 @@ try:
                       width=linewidth,
                       capStyle="FlatCap",
                       joinStyle="MiterJoin")
+
     trajectory = np.roll(trajectory, -1, axis=0)
     trajectory[-1:, :] = np.hstack((x_plot[-1], y_plot[-1]))
     curve = p.plot(trajectory, skipFiniteCheck=True)
+    if colorf is None:
+        curve.setPen(width=linewidth,
+                     capStyle="FlatCap",
+                     joinStyle="MiterJoin")
+    else :
+        curve.setPen(color,
+                     width=linewidth,
+                     capStyle="FlatCap",
+                     joinStyle="MiterJoin")
 
 
     ########
