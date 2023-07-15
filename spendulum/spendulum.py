@@ -48,7 +48,7 @@ parser.add_argument(
     '-w', '--window', type=float, default=200, metavar='DURATION',
     help='visible time slot (default: %(default)s ms)')
 parser.add_argument(
-    '-i', '--interval', type=float, default=30,
+    '-i', '--interval', type=float, default=10,
     help='minimum time between plot updates (default: %(default)s ms)')
 parser.add_argument(
     '--blocksize', type=int, help='block size (in samples)')
@@ -70,7 +70,7 @@ parser.add_argument(
     '-t', '--transformer', type=str, default='hamming',
     help='spectrum transformer (default: %(default)s)')
 parser.add_argument(
-    '-s', '--sensitivity', type=float, default=0.005,
+    '-s', '--sensitivity', type=float, default=0.001,
     help='sensitivity of Specirctrogram (default: %(default)s)')
 parser.add_argument(
     '--dynamicradius', action='store_true',
@@ -196,7 +196,7 @@ def update_plot():
     therefore the queue tends to contain multiple blocks of audio data.
 
     """
-    global plotdata, curve, curvef, scatter, frames, theta_individual
+    global plotdata, curve, curvef, scatter, frames, theta_individual, trajectory
     while True:
         try:
             data = q.get_nowait()
@@ -215,6 +215,10 @@ def update_plot():
     x_plot = np.vstack(np.cumsum(x))
     y_plot = np.vstack(np.cumsum(y))
     curvef.setData(np.hstack((x_plot, y_plot)))
+
+    trajectory = np.roll(trajectory, -1, axis=0)
+    trajectory[-1:, :] = np.hstack((x_plot[-1], y_plot[-1]))
+    curve.setData(trajectory)
 
     frames += 1
 
@@ -238,6 +242,7 @@ try:
     #    wigner_match = True
     length = int(args.window * args.samplerate / (1000 * args.downsample))
     plotdata = np.zeros((length, len(args.channels)))
+    trajectory = np.zeros((10, 2))
 
 
     ########
@@ -330,6 +335,9 @@ try:
                       width=linewidth,
                       capStyle="FlatCap",
                       joinStyle="MiterJoin")
+    trajectory = np.roll(trajectory, -1, axis=0)
+    trajectory[-1:, :] = np.hstack((x_plot[-1], y_plot[-1]))
+    curve = p.plot(trajectory, skipFiniteCheck=True)
 
 
     ########
